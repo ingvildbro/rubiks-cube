@@ -133,6 +133,16 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glDepthFunc(GL_LEQUAL);
         gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         gl.glShadeModel(GL_SMOOTH);
+
+
+        float[] b = new float[2];
+
+        gl.glGetFloatv(GL2.GL_ALIASED_LINE_WIDTH_RANGE, b, 0);
+        System.out.println("b[0]: "+b[0]+" b[1]: "+b[1]);
+        gl.glGetFloatv(GL2.GL_SMOOTH_LINE_WIDTH_RANGE, b, 0);
+        System.out.println("b[0]: "+b[0]+" b[1]: "+b[1]);
+        gl.glGetFloatv(GL2.GL_SMOOTH_LINE_WIDTH_GRANULARITY, b, 0);
+        System.out.println("b[0]: "+b[0]);
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -177,7 +187,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                     //gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
                     //gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
-                    gl.glTranslatef((x-1)*2.2f, (y-1)*2.2f, (z-1)*2.2f);
+                    gl.glTranslatef((x-1)*2.5f, (y-1)*2.5f, (z-1)*2.5f);
 
                     drawOutline(gl, x, y, z);
                     drawCube(gl, x, y, z);
@@ -188,16 +198,101 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         }
     }
 
+    private void drawBackgroundCell(GL2 gl, int x, int y, int z) {
+        // Front face cells
+
+        float fSize = 0.0f;
+        float fZ = 1.0f;
+
+        gl.glBegin(GL_QUADS);
+
+        gl.glColor3f(0.5f, 0.5f, 0.5f);     // Grey background
+
+        // x: -1, y: -1 (bottom row, left column)   # 1
+        if(selectedCube == 1) {
+            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+        }
+
+
+        //  x: 0, y: -1     (bottom row, mid column)     # 2
+        if(selectedCube == 2) {
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // LEFT  -  BOT  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+        }
+
+        //  x: 1, y: -1      (RIGHT col, BOT row)           # 3
+        if(selectedCube == 3) {
+            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( -  -
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+        }
+
+        //  x: 1, y: 0      (LEFT col, MID row)          # 4
+        if(selectedCube == 4) {
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  ( ++ ,  - )
+            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  ( ++ ,  - )
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ ,  + )
+            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  ( ++ ,  + )
+        }
+
+
+        //  x: -1, y: 0     (MID col, MID row)           # 5
+        if(selectedCube == 5) {
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  (  - ,  - )
+            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  (  + ,  - )
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  (  + ,  + )
+            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  (  - ,  + )
+        }
+
+
+        //  x: 1, y: 0      (RIGHT col, MID row)         # 6
+        if(selectedCube == 6) {
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  (  + ,  - )
+            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  ( ++ ,  - )
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ ,  + )
+            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  (  + ,  + )
+        }
+
+        //  x: -1, y: 1     (LEFT col, TOP row)          # 7
+        if(selectedCube == 7) {
+            gl.glVertex3f(-3.75f, 1.25f, fZ);      // LEFT  -  BOT  |  ( -- ,  + )
+            gl.glVertex3f(-1.25f, 1.25f, fZ);      // RIGHT -  BOT  |  (  - ,  + )
+            gl.glVertex3f(-1.25f, 3.75f, fZ);      // RIGHT -  TOP  |  (  - , ++ )
+            gl.glVertex3f(-3.75f, 3.75f, fZ);      // LEFT  -  TOP  |  ( -- , ++ )
+        }
+
+        //  x: 0, y: 1      (MID col, TOP row)              # 8
+        if(selectedCube == 8) {
+            gl.glVertex3f(-1.25f, 1.25f, fZ);      // LEFT  -  BOT  |  (  - ,  + )
+            gl.glVertex3f(1.25f, 1.25f, fZ);       // RIGHT -  BOT  |  (  + ,  + )
+            gl.glVertex3f(1.25f, 3.75f, fZ);       // RIGHT -  TOP  |  (  + , ++ )
+            gl.glVertex3f(-1.25f, 3.75f, fZ);      // LEFT  -  TOP  |  (  - , ++ )
+        }
+
+        //  x: 1, y: 1      (RIGHT col, TOP row)         # 9
+        if(selectedCube == 9) {
+            gl.glVertex3f(1.25f, 1.25f, fZ);      // LEFT  -  BOT  |  (  + ,  + )
+            gl.glVertex3f(3.75f, 1.25f, fZ);      // RIGHT -  BOT  |  ( ++ ,  + )
+            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(1.25f, 3.75f, fZ);      // LEFT  -  TOP  |  (  + , ++ )
+        }
+
+        gl.glEnd();
+
+    }
+
     private void drawOutline(GL2 gl, int x, int y, int z) {
 
         float[] width = new float[2];
-        width[0] = 2.0f;
-        width[1] = 2.0f;
 
         // TOP
-        gl.glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, width, 0);
         gl.glBegin(GL_LINE_LOOP);
-        gl.glLineWidth(2.5f);
 
         gl.glColor3f(0.5f, 0.5f, 0.5f);             // inside black
 
