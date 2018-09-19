@@ -178,6 +178,8 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glRotatef(viewZ, 0.0f, 0.0f, 1.0f);
 
 
+        drawBackgroundCell(gl, 0, 0, 0);
+
         for(int x = 0; x < 3; x++) {
             for(int y = 0; y < 3; y++) {
                 for (int z = 0; z < 3; z++) {
@@ -205,61 +207,61 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         float fZ = 1.0f;
 
         gl.glBegin(GL_QUADS);
+        gl.glColor3f(0.5f, 0.5f, 0.5f);         // Grey background
 
-        gl.glColor3f(0.5f, 0.5f, 0.5f);     // Grey background
 
-        // x: -1, y: -1 (bottom row, left column)   # 1
+        //  x: -1, y: -1    (LEFT col,  BOT row)            # 1 - ok
         if(selectedCube == 1) {
-            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( ++ , ++ )
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
-            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
-            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( -- , -- )
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  (  - , -- )
+            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  (  - ,  - )
+            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( -- ,  - )
         }
 
 
-        //  x: 0, y: -1     (bottom row, mid column)     # 2
+        //  x: 0, y: -1     (MID col,   BOT row)            # 2 - ok
         if(selectedCube == 2) {
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // LEFT  -  BOT  |  ( ++ , ++ )
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
-            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
-            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(-1.25f, -3.75f, fZ);      // LEFT  -  BOT  |  (  - , -- )
+            gl.glVertex3f(1.25f,  -3.75f, fZ);      // RIGHT -  BOT  |  (  + , -- )
+            gl.glVertex3f(1.25f,  -1.25f, fZ);      // RIGHT -  TOP  |  (  + ,  - )
+            gl.glVertex3f(-1.25f, -1.25f, fZ);      // LEFT  -  TOP  |  (  - ,  - )
         }
 
-        //  x: 1, y: -1      (RIGHT col, BOT row)           # 3
+        //  x: 1, y: -1     (RIGHT col, BOT row)            # 3 - ok
         if(selectedCube == 3) {
-            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( -  -
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  ( ++ , ++ )
-            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
-            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(1.25f, -3.75f, fZ);       // LEFT  -  BOT  |  (  + , -- )
+            gl.glVertex3f(3.75f, -3.75f, fZ);       // RIGHT -  BOT  |  ( ++ , -- )
+            gl.glVertex3f(3.75f, -1.25f, fZ);       // RIGHT -  TOP  |  ( ++ ,  - )
+            gl.glVertex3f(1.25f, -1.25f, fZ);       // LEFT  -  TOP  |  (  + ,  - )
         }
 
-        //  x: 1, y: 0      (LEFT col, MID row)          # 4
+        //  x: 1, y: 0      (LEFT col,  MID row)            # 4 - ok
         if(selectedCube == 4) {
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  ( ++ ,  - )
-            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  ( ++ ,  - )
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ ,  + )
-            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  ( ++ ,  + )
+            gl.glVertex3f(-3.75f,  -1.25f, fZ);      // LEFT  -  BOT  |  ( -- ,  - )
+            gl.glVertex3f(-1.25f,  -1.25f, fZ);      // RIGHT -  BOT  |  (  - ,  - )
+            gl.glVertex3f(-1.25f,  1.25f,  fZ);      // RIGHT -  TOP  |  (  - ,  + )
+            gl.glVertex3f(-3.75f,  1.25f,  fZ);      // LEFT  -  TOP  |  ( -- ,  + )
         }
 
 
-        //  x: -1, y: 0     (MID col, MID row)           # 5
+        //  x: -1, y: 0     (MID col,   MID row)            # 5 - ok
         if(selectedCube == 5) {
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  (  - ,  - )
-            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  (  + ,  - )
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  (  + ,  + )
-            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  (  - ,  + )
+            gl.glVertex3f(-1.25f,  -1.25f, fZ);     // LEFT  -  BOT  |  (  - ,  - )
+            gl.glVertex3f(1.25f,   -1.25f, fZ);     // RIGHT -  BOT  |  (  + ,  - )
+            gl.glVertex3f(1.25f,   1.25f,  fZ);     // RIGHT -  TOP  |  (  + ,  + )
+            gl.glVertex3f(-1.25f,  1.25f,  fZ);     // LEFT  -  TOP  |  (  - ,  + )
         }
 
 
-        //  x: 1, y: 0      (RIGHT col, MID row)         # 6
+        //  x: 1, y: 0      (RIGHT col, MID row)            # 6 - ok
         if(selectedCube == 6) {
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // LEFT  -  BOT  |  (  + ,  - )
-            gl.glVertex3f(1.25f, 3.75f, fZ);      // RIGHT -  BOT  |  ( ++ ,  - )
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ ,  + )
-            gl.glVertex3f(3.75f, 1.25f, fZ);      // LEFT  -  TOP  |  (  + ,  + )
+            gl.glVertex3f(1.25f, -1.25f, fZ);       // LEFT  -  BOT  |  (  + ,  - )
+            gl.glVertex3f(3.75f, -1.25f, fZ);       // RIGHT -  BOT  |  ( ++ ,  - )
+            gl.glVertex3f(3.75f, 1.25f,  fZ);       // RIGHT -  TOP  |  ( ++ ,  + )
+            gl.glVertex3f(1.25f, 1.25f,  fZ);       // LEFT  -  TOP  |  (  + ,  + )
         }
 
-        //  x: -1, y: 1     (LEFT col, TOP row)          # 7
+        //  x: -1, y: 1     (LEFT col, TOP row)             # 7 - ok
         if(selectedCube == 7) {
             gl.glVertex3f(-3.75f, 1.25f, fZ);      // LEFT  -  BOT  |  ( -- ,  + )
             gl.glVertex3f(-1.25f, 1.25f, fZ);      // RIGHT -  BOT  |  (  - ,  + )
@@ -267,20 +269,20 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
             gl.glVertex3f(-3.75f, 3.75f, fZ);      // LEFT  -  TOP  |  ( -- , ++ )
         }
 
-        //  x: 0, y: 1      (MID col, TOP row)              # 8
+        //  x: 0, y: 1      (MID col,   TOP row)            # 8 - ok
         if(selectedCube == 8) {
-            gl.glVertex3f(-1.25f, 1.25f, fZ);      // LEFT  -  BOT  |  (  - ,  + )
-            gl.glVertex3f(1.25f, 1.25f, fZ);       // RIGHT -  BOT  |  (  + ,  + )
-            gl.glVertex3f(1.25f, 3.75f, fZ);       // RIGHT -  TOP  |  (  + , ++ )
-            gl.glVertex3f(-1.25f, 3.75f, fZ);      // LEFT  -  TOP  |  (  - , ++ )
+            gl.glVertex3f(-1.25f, 1.25f, fZ);       // LEFT  -  BOT  |  (  - ,  + )
+            gl.glVertex3f( 1.25f, 1.25f, fZ);       // RIGHT -  BOT  |  (  + ,  + )
+            gl.glVertex3f( 1.25f, 3.75f, fZ);       // RIGHT -  TOP  |  (  + , ++ )
+            gl.glVertex3f(-1.25f, 3.75f, fZ);       // LEFT  -  TOP  |  (  - , ++ )
         }
 
-        //  x: 1, y: 1      (RIGHT col, TOP row)         # 9
+        //  x: 1, y: 1      (RIGHT col, TOP row)            # 9    OK
         if(selectedCube == 9) {
-            gl.glVertex3f(1.25f, 1.25f, fZ);      // LEFT  -  BOT  |  (  + ,  + )
-            gl.glVertex3f(3.75f, 1.25f, fZ);      // RIGHT -  BOT  |  ( ++ ,  + )
-            gl.glVertex3f(3.75f, 3.75f, fZ);      // RIGHT -  TOP  |  ( ++ , ++ )
-            gl.glVertex3f(1.25f, 3.75f, fZ);      // LEFT  -  TOP  |  (  + , ++ )
+            gl.glVertex3f(1.25f, 1.25f, fZ);        // LEFT  -  BOT  |  (  + ,  + )
+            gl.glVertex3f(3.75f, 1.25f, fZ);        // RIGHT -  BOT  |  ( ++ ,  + )
+            gl.glVertex3f(3.75f, 3.75f, fZ);        // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(1.25f, 3.75f, fZ);        // LEFT  -  TOP  |  (  + , ++ )
         }
 
         gl.glEnd();
