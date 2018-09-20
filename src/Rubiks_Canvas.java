@@ -16,6 +16,7 @@ import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import static com.jogamp.opengl.GL.*;
 import static com.jogamp.opengl.GL2.GL_QUADS;
 import static com.jogamp.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
+import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_COLOR_MATERIAL;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
@@ -252,7 +253,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                     gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
                     gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
-                    gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
+                    gl.glTranslatef((x-1)*2.25f, (y-1)*2.25f, (z-1)*2.25f);
 
                     drawCube(gl, x, y, z);
 
@@ -262,7 +263,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         }
 
         gl.glTranslatef(0.0f, 0.0f, 0.0f);
-        drawBackgroundDefault(gl);
+        // drawBackgroundDefault(gl);
     }
 
     private void drawBackgroundZ(GL2 gl) {
@@ -445,6 +446,9 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     private void drawCube(GL2 gl, int x, int y, int z) {
         // Start drawing quads to form a single cube
+
+        gl.glEnable(GL_COLOR_MATERIAL);
+
         gl.glBegin(GL_QUADS);
 
 
@@ -505,6 +509,18 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glVertex3f(-1.125f, 1.0f, -1.0f);
 
         gl.glEnd();
+
+        gl.glLoadIdentity();
+        gl.glEnable(GL2.GL_LIGHTING);
+        gl.glEnable(GL2.GL_LIGHT0);
+        // gl.glEnable(GL2.GL_NORMALIZE);
+
+        float[] spotdirection = {0, 0, 0};
+        float[] lightposition = {0.0f, 50.0f, 0.0f};
+        float[] diffuselight = {1.0f, 1.0f, 1.0f, 1.0f };  //strong yellow diffuse
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightposition, 0);
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuselight, 0);
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, spotdirection, 0);
 
     }
 
