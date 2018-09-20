@@ -573,24 +573,34 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         System.out.println(colorSide);
     }
-/*
-    private void glApplyColor(GL2 gl, Color color) {
+
+    private void findColor(GL2 gl, int color) {
         switch (color) {
-            case WHITE:
-                gl.glColor3f(ONE_F, ONE_F, ONE_F); break;
-            case YELLOW:
-                gl.glColor3f(ONE_F, ONE_F, ZERO_F); break;
-            case GREEN:
-                gl.glColor3f(ZERO_F, ONE_F, ZERO_F); break;
-            case ORANGE:
-                gl.glColor3f(ONE_F, ONE_F/2, ZERO_F); break;
-            case BLUE:
-                gl.glColor3f(ZERO_F, ZERO_F, ONE_F); break;
-            case RED:
-                gl.glColor3f(ONE_F, ZERO_F, ZERO_F); break;
+            case 0: // RED
+                gl.glColor3f(1.0f, 0.0f, 0.0f);
+                break;
+
+            case 1: // ORANGE
+                gl.glColor3f(1.0f, 0.5f, 0.0f);
+                break;
+
+            case 2: // BLUE
+                gl.glColor3f(0.0f, 0.0f, 1.0f);
+                break;
+
+            case 3: // GREEN
+                gl.glColor3f(0.0f, 1.0f, 0.0f);
+                break;
+
+            case 4: // YELLOW
+                gl.glColor3f(1.0f, 1.0f, 0.0f);
+                break;
+
+            case 5: // WHITE
+                gl.glColor3f(1.0f, 1.0f, 1.0f);
+                break;
         }
     }
-    */
     private boolean isRotating() {
         return rotationSectionX + rotationSectionY + rotationSectionZ > -3;
     }
