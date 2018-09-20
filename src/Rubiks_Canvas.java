@@ -53,16 +53,66 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
 
     // Color views
-    private static final float RED_VIEW_X = 22.5f;
-    private static final float ORANGE_VIEW_X = 22.5f;
-    private static final float BLUE_VIEW_X = 22.5f;
-    private static final float GREEN_VIEW_X = 22.5f;
-    private static final float WHITE_VIEW_X = 22.5f;
-    private static final float YELLOW_VIEW_X = 22.5f;
+
+    //RED   -   -45 < x < 45    -   -45 < y < 45
+    private static final float RED_VIEW_X_MAX = 22.5f;      //44.9f         #1.9
+    private static final float RED_VIEW_X = 0.0f;                       //  #1      0       360
+    private static final float RED_VIEW_X_MIN = -22.5f;     //-44.9f        #1.1
+
+    private static final float RED_VIEW_Y_MAX = 22.5f;      //44.9f         #
+    private static final float RED_VIEW_Y = 0.0f;                       //  #x      0       360
+    private static final float RED_VIEW_Y_MIN = -22.5f;     //-44.9f        #
+
+    //ORANGE
+    private static final float ORANGE_VIEW_X_MAX = 202.5f;  //224.9f        #3.9
+    private static final float ORANGE_VIEW_X = 180.0f;                  //  #3      -180    180
+    private static final float ORANGE_VIEW_X_MIN = 157.5f;  //135.1f        #3.1
+
+    private static final float ORANGE_VIEW_Y_MAX = 22.5f;   //
+    private static final float ORANGE_VIEW_Y = 22.5f;                   //
+    private static final float ORANGE_VIEW_Y_MIN = 22.5f;   //
+
+    //BLUE
+    private static final float BLUE_VIEW_X_MAX = 112.5f;    //134.9f        #2.9
+    private static final float BLUE_VIEW_X = 90.0f;                     //  #2      -270    90
+    private static final float BLUE_VIEW_X_MIN = 67.5f;     //45.1f         #2.1
+
+    private static final float BLUE_VIEW_Y_MAX = 22.5f;     //
+    private static final float BLUE_VIEW_Y = 22.5f;                     //
+    private static final float BLUE_VIEW_Y_MIN = 22.5f;     //
+
+    //GREEN
+    private static final float GREEN_VIEW_X_MAX = 292.5f;    //314.9f       #4.9
+    private static final float GREEN_VIEW_X = 270.0f;                   //  #4      -90     270
+    private static final float GREEN_VIEW_X_MIN = 247.5f;    //225.1f       #4.1
+
+    private static final float GREEN_VIEW_Y_MAX = 22.5f;    //
+    private static final float GREEN_VIEW_Y = 22.5f;                    //
+    private static final float GREEN_VIEW_Y_MIN = 22.5f;    //
+
+    //YELLOW
+    private static final float YELLOW_VIEW_X_MAX = 22.5f;
+    private static final float YELLOW_VIEW_X = 0.0f;
+    private static final float YELLOW_VIEW_X_MIN = 22.5f;
+
+    private static final float YELLOW_VIEW_Y_MAX = 22.5f;
+    private static final float YELLOW_VIEW_Y = 22.5f;
+    private static final float YELLOW_VIEW_Y_MIN = 22.5f;
+
+
+    //WHITE
+    private static final float WHITE_VIEW_X_MAX = 22.5f;
+    private static final float WHITE_VIEW_X = 0.0f;
+    private static final float WHITE_VIEW_X_MIN = 22.5f;
+
+    private static final float WHITE_VIEW_Y_MAX = 22.5f;
+    private static final float WHITE_VIEW_Y = 22.5f;
+    private static final float WHITE_VIEW_Y_MIN = 22.5f;
+
 
     // Rotate degrees
     private static final double VIEW_ROT_STEP = 22.5;
-    private static final int VIEW_ZOOM_STEP = 5;
+    private static final double VIEW_ZOOM_STEP = 22.5;
     private static final int CUBE_STRIP_ROT_STEP = 90;
 
 
@@ -97,6 +147,8 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private int selectedZ;
     private int[] selectedCubePos = new int[3];
     private boolean isSelected;
+
+    private int selectedDirection;
 
     private int colorSide;
 
@@ -196,9 +248,9 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                 for (int z = 0; z < 3; z++) {
                     gl.glPushMatrix();
 
-                    //gl.glRotatef(anglesX[x], 1.0f, 0.0f, 0.0f);
-                    //gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
-                    //gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
+                    gl.glRotatef(anglesX[x], 1.0f, 0.0f, 0.0f);
+                    gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
+                    gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
                     gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
 
@@ -399,6 +451,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         // FRONT - red
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
+        if ((Cube.FACELET_TOP) > 0) glApplyColor(gl, cube.top);
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
@@ -456,16 +509,71 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     }
 
     private void updateView() {
-
-        if (viewX >= -44.9f && viewX <= 44.9f) {
-            if (viewY >= -44.9f && viewY <= 44.9f)  {
-                colorSide = 0;
-            } else {
-                colorSide = 1;
+        // 315.1  -  0  -  44.9
+        if ((viewX >= 0 && viewX < 45) || (viewX > 315 && viewX <= 365)) {
+            if ((viewY >= 0 && viewY < 45) || (viewY > 315 && viewY <= 365))  {
+                colorSide = 0;  // red
+            } else if (viewY > 45 && viewY < 135){
+                colorSide = 5;  // white
+            } else if (viewY > 135 && viewY < 225){
+                colorSide = 1;  // orange
+            } else if (viewY > 225 && viewY < 315){
+                colorSide = 4;  // yellow
             }
-        }// else if ()
+        } else if (viewX > 45 && viewX < 135) {
+            if ((viewZ >= 0 && viewZ < 45) || (viewZ > 315 && viewZ <= 365)) {
+                colorSide = 2; // blue
+
+            } else if (viewZ > 45 && viewZ < 135){
+                colorSide = 4;  // yellow
+            }  else if (viewY > 135 && viewY < 225){
+                colorSide = 3;  // green
+            } else if (viewZ > 225 && viewZ < 315){
+                colorSide = 5;  // white
+            }
+
+        } else if (viewX > 135 && viewX < 225) {
+            if ((viewY >= 0 && viewY < 45) || (viewY > 315 && viewY <= 365))  {
+                colorSide = 1;  // orange
+            } else if (viewY > 45 && viewY < 135){
+                colorSide = 4;  // yellow
+            } else if (viewY > 135 && viewY < 225){
+                colorSide = 0;  // red
+            } else if (viewY > 225 && viewY < 315){
+                colorSide = 5;  // white
+            }
+
+        } else if (viewX > 225 && viewX < 315) {
+            if ((viewZ >= 0 && viewZ < 45) || (viewZ > 315 && viewZ <= 365)) {
+                colorSide = 3; // green
+            } else if (viewZ > 45 && viewZ < 135){
+                colorSide = 5;  // white
+            }  else if (viewY > 135 && viewY < 225){
+                colorSide = 2;  // blue
+            } else if (viewZ > 225 && viewZ < 315){
+                colorSide = 4;  // yellow
+            }
+        }
+
+        System.out.println(colorSide);
     }
 
+    private void glApplyColor(GL2 gl, Color color) {
+        switch (color) {
+            case WHITE:
+                gl.glColor3f(ONE_F, ONE_F, ONE_F); break;
+            case YELLOW:
+                gl.glColor3f(ONE_F, ONE_F, ZERO_F); break;
+            case GREEN:
+                gl.glColor3f(ZERO_F, ONE_F, ZERO_F); break;
+            case ORANGE:
+                gl.glColor3f(ONE_F, ONE_F/2, ZERO_F); break;
+            case BLUE:
+                gl.glColor3f(ZERO_F, ZERO_F, ONE_F); break;
+            case RED:
+                gl.glColor3f(ONE_F, ZERO_F, ZERO_F); break;
+        }
+    }
     private boolean isRotating() {
         return rotationSectionX + rotationSectionY + rotationSectionZ > -3;
     }
@@ -518,71 +626,85 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         if (e.isShiftDown()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    if (viewX < -360) viewX =
+
                     viewX -= VIEW_ROT_STEP;
+                    if (viewX < 0) viewX += 360;
                     System.out.println("x: " + viewX);
                     break;
 
                 case KeyEvent.VK_DOWN:
                     viewX += VIEW_ROT_STEP;
+                    if (viewX > 360) viewX -= 360;
                     System.out.println("x: " + viewX);
                     break;
 
                 case KeyEvent.VK_LEFT:
                     viewY -= VIEW_ROT_STEP;
+                    if (viewY < 0) viewY += 360;
                     System.out.println("y: " + viewY);
                     break;
 
                 case KeyEvent.VK_RIGHT:
                     viewY += VIEW_ROT_STEP;
+                    if (viewY > 360) viewY -= 360;
                     System.out.println("y: " + viewY);
                     break;
 
-                case KeyEvent.VK_PLUS:
-                    viewZ += VIEW_ZOOM_STEP;
-                    System.out.println("z: " + viewZ);
-                    break;
-
-                case KeyEvent.VK_MINUS:
+                case KeyEvent.VK_SPACE:
                     viewZ -= VIEW_ZOOM_STEP;
+                    if (viewZ < 0) viewZ += 360;
                     System.out.println("z: " + viewZ);
                     break;
             }
-        } else if (e.getAttachment() != null) {
+            updateView();
+        } else if(e.isControlDown()){
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                viewZ += VIEW_ZOOM_STEP;
+                if (viewZ > 360) viewZ -= 360;
+                System.out.println("z: " + viewZ);
+            }
+            updateView();
+        }else if (e.getAttachment() != null) {
             System.out.println(e.getAttachment());
+            updateView();
+
+
+
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-
+                    selectedDirection = 2;
+                    rotateSection(selectedCubePos[1], Rotation.Axis.Y, false);
                     break;
 
                 case KeyEvent.VK_DOWN:
-
+                    selectedDirection = 3;
+                    rotateSection(selectedCubePos[1], Rotation.Axis.Y, true);
                     break;
 
                 case KeyEvent.VK_LEFT:
-
+                    selectedDirection = 1;
+                    rotateSection(selectedCubePos[0], Rotation.Axis.X, true);
                     break;
 
                 case KeyEvent.VK_RIGHT:
-
+                    selectedDirection = 0;
+                    rotateSection(selectedCubePos[0], Rotation.Axis.X, false);
                     break;
 
                 case KeyEvent.VK_PLUS:
-
+                    selectedDirection = 4; // +z
+                    rotateSection(selectedCubePos[2], Rotation.Axis.Z, false);
                     break;
 
                 case KeyEvent.VK_MINUS:
-
+                    selectedDirection = 5; // -z
+                    rotateSection(selectedCubePos[2], Rotation.Axis.Z, true);
                     break;
             }
 
 
         } else {
-
-            if (viewX <= DEFAULT_VIEW_X && viewX >= -DEFAULT_VIEW_X ) {
-                System.out.println("Red");
-            }
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
@@ -615,13 +737,13 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
                 case KeyEvent.VK_D:
                     e.setAttachment(KeyEvent.VK_D);
-                    selectedCube = 6;
+                    selectedCube = 6;   //  2, 1, z
 
                     break;
 
                 case KeyEvent.VK_Z:
                     e.setAttachment(KeyEvent.VK_Z);
-                    selectedCube = 1;
+                    selectedCube = 1;   // 0, 0, z
 
                     break;
 
@@ -641,12 +763,84 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     }
 
     private void selectCube(int number) {
+        updateView();
 
-        if (viewX >= -22.5f && viewX <= 22.5f) {
+        if (number == 1 || number == 4 || number == 7) {
+            selectedCubePos[0] = 0;
+        } else if (number == 2 || number == 5 || number == 8) {
+            selectedCubePos[0] = 1;
+        } else {
+            selectedCubePos[0] = 2;
+        }
 
+        if (number < 4) {
+            selectedCubePos[1] = 0;
+        } else if (number < 7) {
+            selectedCubePos[1] = 1;
+        } else {
+            selectedCubePos[1] = 2;
+        }
+
+        switch (colorSide) {
+            case 0: // x, y, 2  red
+
+                selectedCubePos[2] = 2; // z = 2
+                break;
+
+            case 1: // x, y, 0  orange
+
+
+                selectedCubePos[2] = 0; // z = 0
+                break;
+
+            case 2: // x, 2, z  blue
+                //selectedCubePos[2] = selectedCubePos[1];
+
+                selectedCubePos[1] = 2; // y = 2
+                break;
+
+            case 3: // x, 0, z  green
+                //selectedCubePos[0] = 0;
+                selectedCubePos[1] = 0; // y = 0
+                //selectedCubePos[2] = 2;
+                break;
+
+            case 4: // 2, y, z  yellow
+                selectedCubePos[0] = 2; // x = 2
+                //selectedCubePos[1] = 0;
+                //selectedCubePos[2] = 2;
+                break;
+
+            case 5: // 0, y, z  white
+                selectedCubePos[0] = 0; // x = 0
+                //selectedCubePos[1] = 0;
+                //selectedCubePos[2] = 2;
+                break;
         }
 
 
+        if (colorSide == 2 || colorSide == 3) {
+            //  set z
+            if (number < 4) {
+                selectedCubePos[2] = 2;
+            } else if (number < 7) {
+                selectedCubePos[2] = 1;
+            } else {
+                selectedCubePos[2] = 0;
+            }
+
+        } else if (colorSide > 3) {
+            //  set y, z
+            if (number == 1 || number == 4 || number == 7) {
+                selectedCubePos[2] = 2;
+            } else if (number == 2 || number == 5 || number == 8) {
+                selectedCubePos[2] = 1;
+            } else {
+                selectedCubePos[2] = 0;
+            }
+        }
+
+        System.out.println("x: " + selectedCubePos[0] + ", y: " + selectedCubePos[1] + ", z: " + selectedCubePos[2]);
     }
 
     private void rotateSliceX(boolean direction) {

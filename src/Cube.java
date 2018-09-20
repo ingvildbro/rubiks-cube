@@ -69,6 +69,13 @@ public class Cube {
     }*/
 
 
+    public static final int FACELET_FRONT  = (1 << 0);
+    public static final int FACELET_REAR   = (1 << 1);
+    public static final int FACELET_LEFT   = (1 << 2);
+    public static final int FACELET_RIGHT  = (1 << 3);
+    public static final int FACELET_TOP    = (1 << 4);
+    public static final int FACELET_BOTTOM = (1 << 5);
+
     public static final Color START_COLOR_FRONT = Color.RED;
     public static final Color START_COLOR_BACK = Color.ORANGE;
     public static final Color START_COLOR_LEFT = Color.WHITE;
