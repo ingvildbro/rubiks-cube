@@ -15,7 +15,6 @@ import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import static com.jogamp.opengl.GL.*;
 import static com.jogamp.opengl.GL2.GL_QUADS;
-import static com.jogamp.opengl.GL2.GL_QUAD_STRIP;
 import static com.jogamp.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -47,8 +46,8 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private static final int FPS = 60;
 
     // Default view
-    private static final float DEFAULT_VIEW_X = 25.0f;
-    private static final float DEFAULT_VIEW_Y = -25.0f;
+    private static final float DEFAULT_VIEW_X = 22.5f;
+    private static final float DEFAULT_VIEW_Y = -22.5f;
     private static final float DEFAULT_VIEW_Z = 0.0f;
     private static final float DEFAULT_ZOOM = -18.0f;
 
@@ -62,7 +61,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private static final float YELLOW_VIEW_X = 22.5f;
 
     // Rotate degrees
-    private static final int VIEW_ROT_STEP = 5;
+    private static final double VIEW_ROT_STEP = 22.5;
     private static final int VIEW_ZOOM_STEP = 5;
     private static final int CUBE_STRIP_ROT_STEP = 90;
 
@@ -190,7 +189,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glRotatef(viewZ, 0.0f, 0.0f, 1.0f);
 
 
-        drawBackgroundCell(gl);
+
 
         for(int x = 0; x < 3; x++) {
             for(int y = 0; y < 3; y++) {
@@ -201,7 +200,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                     //gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
                     //gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
-                    gl.glTranslatef((x-1)*2.5f, (y-1)*2.5f, (z-1)*2.5f);
+                    gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
 
                     drawCube(gl, x, y, z);
 
@@ -209,6 +208,9 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                 }
             }
         }
+
+        gl.glTranslatef(0.0f, 0.0f, 0.0f);
+        drawBackgroundDefault(gl);
     }
 
     private void drawBackgroundZ(GL2 gl) {
@@ -255,43 +257,43 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     private void drawBackgroundDefault(GL2 gl) {
         gl.glBegin(GL_QUADS);
-        gl.glColor3f(0.9f, 0.9f, 0.9f);            // Grey background
+        gl.glColor3f(0.05f, 0.05f, 0.05f);            // Grey background
 
         //  FRONT - ok
-        gl.glVertex3f(-3.75f, -3.75f, 3.75f);      // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
-        gl.glVertex3f(3.75f,  -3.75f, 3.75f);      // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
-        gl.glVertex3f(3.75f,  3.75f,  3.75f);      // RIGHT -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
-        gl.glVertex3f(-3.75f, 3.75f,  3.75f);      // LEFT  -  TOP  -  FRONT  |  ( -- , ++ , ++ )
+        gl.glVertex3f(-3.375f, -3.375f, 3.375f);       // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
+        gl.glVertex3f(3.375f,  -3.375f, 3.375f);       // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
+        gl.glVertex3f(3.375f,  3.375f,  3.375f);       // RIGHT -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
+        gl.glVertex3f(-3.375f, 3.375f,  3.375f);       // LEFT  -  TOP  -  FRONT  |  ( -- , ++ , ++ )
 
         //  BACK - ok
-        gl.glVertex3f(-3.75f, -3.75f, -3.75f);     // LEFT  -  BOT  -  BACK   |  ( -- , -- , -- )
-        gl.glVertex3f(3.75f,  -3.75f, -3.75f);     // RIGHT -  BOT  -  BACK   |  ( ++ , -- , -- )
-        gl.glVertex3f(3.75f,  3.75f,  -3.75f);     // RIGHT -  TOP  -  BACK   |  ( ++ , ++ , -- )
-        gl.glVertex3f(-3.75f, 3.75f,  -3.75f);     // LEFT  -  TOP  -  BACK   |  ( -- , ++ , -- )
+        gl.glVertex3f(-3.375f, -3.375f, -3.375f);      // LEFT  -  BOT  -  BACK   |  ( -- , -- , -- )
+        gl.glVertex3f(3.375f,  -3.375f, -3.375f);      // RIGHT -  BOT  -  BACK   |  ( ++ , -- , -- )
+        gl.glVertex3f(3.375f,  3.375f,  -3.375f);      // RIGHT -  TOP  -  BACK   |  ( ++ , ++ , -- )
+        gl.glVertex3f(-3.375f, 3.375f,  -3.375f);      // LEFT  -  TOP  -  BACK   |  ( -- , ++ , -- )
 
         //  TOP -
-        gl.glVertex3f(-3.75f, -3.75f, 3.75f);      // LEFT  -  BOT  -  FRONT  |  ( -- , ++ , ++ )
-        gl.glVertex3f(3.75f,  -3.75f, 3.75f);      // RIGHT -  BOT  -  FRONT  |  ( ++ , ++ , ++ )
-        gl.glVertex3f(3.75f,  3.75f,  3.75f);      // RIGHT -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
-        gl.glVertex3f(-3.75f, 3.75f,  3.75f);      // LEFT  -  TOP  -  FRONT  |  ( -- , ++ , ++ )
+        gl.glVertex3f(-3.375f, 3.375f, -3.375f);       // LEFT  -  TOP  -  BACK  |  ( -- , ++ , -- )
+        gl.glVertex3f(3.375f,  3.375f, -3.375f);       // RIGHT -  TOP  -  BACK  |  ( ++ , ++ , -- )
+        gl.glVertex3f(3.375f,  3.375f, 3.375f);        // RIGHT -  TOP  -  FRONT |  ( ++ , ++ , ++ )
+        gl.glVertex3f(-3.375f, 3.375f, 3.375f);        // LEFT  -  TOP  -  FRONT |  ( -- , ++ , ++ )
 
         //  BOT -
-        gl.glVertex3f(-3.75f, -3.75f, 3.75f);      // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
-        gl.glVertex3f(3.75f,  -3.75f, 3.75f);      // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
-        gl.glVertex3f(3.75f,  3.75f,  3.75f);      // RIGHT -  TOP  -  FRONT  |  ( ++ , -- , ++ )
-        gl.glVertex3f(-3.75f, 3.75f,  3.75f);      // LEFT  -  TOP  -  FRONT  |  ( -- , -- , ++ )
+        gl.glVertex3f(-3.375f, -3.375f, -3.375f);      // LEFT  -  BOT  -  BACK   |  ( -- , -- , -- )
+        gl.glVertex3f(3.375f,  -3.375f, -3.375f);      // RIGHT -  BOT  -  BACK   |  ( ++ , -- , -- )
+        gl.glVertex3f(3.375f,  -3.375f, 3.375f);       // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
+        gl.glVertex3f(-3.375f, -3.375f, 3.375f);       // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
 
-        //  RIGHT -
-        gl.glVertex3f(-3.75f, -3.75f, 3.75f);      // LEFT  -  BOT  -  FRONT  |  ( ++ , -- , ++ )
-        gl.glVertex3f(3.75f,  -3.75f, 3.75f);      // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
-        gl.glVertex3f(3.75f,  3.75f,  3.75f);      // RIGHT -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
-        gl.glVertex3f(-3.75f, 3.75f,  3.75f);      // LEFT  -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
+        //  RIGHT - OK
+        gl.glVertex3f(3.375f, -3.375f, -3.375f);       // RIGHT -  BOT  -  BACK   |  ( ++ , -- , -- )
+        gl.glVertex3f(3.375f, -3.375f, 3.375f);        // RIGHT -  BOT  -  FRONT  |  ( ++ , -- , ++ )
+        gl.glVertex3f(3.375f, 3.375f,  3.375f);        // RIGHT -  TOP  -  FRONT  |  ( ++ , ++ , ++ )
+        gl.glVertex3f(3.375f, 3.375f,  -3.375f);       // RIGHT -  TOP  -  BACK   |  ( ++ , ++ , -- )
 
-        //  LEFT -
-        gl.glVertex3f(-3.75f, -3.75f, 3.75f);      // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
-        gl.glVertex3f(3.75f,  -3.75f, 3.75f);      // RIGHT -  BOT  -  FRONT  |  ( -- , -- , ++ )
-        gl.glVertex3f(3.75f,  3.75f,  3.75f);      // RIGHT -  TOP  -  FRONT  |  ( -- , ++ , ++ )
-        gl.glVertex3f(-3.75f, 3.75f,  3.75f);      // LEFT  -  TOP  -  FRONT  |  ( -- , ++ , ++ )
+        //  LEFT - OK
+        gl.glVertex3f(-3.375f, -3.375f, -3.375f);      // LEFT  -  BOT  -  BACK   |  ( -- , -- , -- )
+        gl.glVertex3f(-3.375f, -3.375f, 3.375f);       // LEFT  -  BOT  -  FRONT  |  ( -- , -- , ++ )
+        gl.glVertex3f(-3.375f, 3.375f,  3.375f);       // LEFT  -  TOP  -  FRONT  |  ( -- , ++ , ++ )
+        gl.glVertex3f(-3.375f, 3.375f,  -3.375f);      // LEFT  -  TOP  -  BACK   |  ( -- , ++ , -- )
 
 
         gl.glEnd();
@@ -300,7 +302,11 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private void drawBackgroundCell(GL2 gl) {
         // Front face cells
 
+        float fX = 1.0f;
+        float fY = 1.0f;
         float fZ = 1.0f;
+
+
 
         gl.glBegin(GL_QUADS);
         gl.glColor3f(0.5f, 0.5f, 0.5f);         // Grey background
@@ -308,77 +314,77 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         //  x: -1, y: -1    (LEFT col,  BOT row)            # 1
         if(selectedCube == 1) {
-            gl.glVertex3f(-3.75f, -3.75f, fZ);      // LEFT  -  BOT  |  ( -- , -- )
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // RIGHT -  BOT  |  (  - , -- )
-            gl.glVertex3f(-1.25f, -1.25f, fZ);      // RIGHT -  TOP  |  (  - ,  - )
-            gl.glVertex3f(-3.75f, -1.25f, fZ);      // LEFT  -  TOP  |  ( -- ,  - )
+            gl.glVertex3f(-3.375f, -3.375f, fZ);      // LEFT  -  BOT  |  ( -- , -- )
+            gl.glVertex3f(-1.125f, -3.375f, fZ);      // RIGHT -  BOT  |  (  - , -- )
+            gl.glVertex3f(-1.125f, -1.125f, fZ);      // RIGHT -  TOP  |  (  - ,  - )
+            gl.glVertex3f(-3.375f, -1.125f, fZ);      // LEFT  -  TOP  |  ( -- ,  - )
         }
 
 
         //  x: 0, y: -1     (MID col,   BOT row)            # 2
         if(selectedCube == 2) {
-            gl.glVertex3f(-1.25f, -3.75f, fZ);      // LEFT  -  BOT  |  (  - , -- )
-            gl.glVertex3f(1.25f,  -3.75f, fZ);      // RIGHT -  BOT  |  (  + , -- )
-            gl.glVertex3f(1.25f,  -1.25f, fZ);      // RIGHT -  TOP  |  (  + ,  - )
-            gl.glVertex3f(-1.25f, -1.25f, fZ);      // LEFT  -  TOP  |  (  - ,  - )
+            gl.glVertex3f(-1.125f, -3.375f, fZ);      // LEFT  -  BOT  |  (  - , -- )
+            gl.glVertex3f(1.125f,  -3.375f, fZ);      // RIGHT -  BOT  |  (  + , -- )
+            gl.glVertex3f(1.125f,  -1.125f, fZ);      // RIGHT -  TOP  |  (  + ,  - )
+            gl.glVertex3f(-1.125f, -1.125f, fZ);      // LEFT  -  TOP  |  (  - ,  - )
         }
 
         //  x: 1, y: -1     (RIGHT col, BOT row)            # 3
         if(selectedCube == 3) {
-            gl.glVertex3f(1.25f, -3.75f, fZ);       // LEFT  -  BOT  |  (  + , -- )
-            gl.glVertex3f(3.75f, -3.75f, fZ);       // RIGHT -  BOT  |  ( ++ , -- )
-            gl.glVertex3f(3.75f, -1.25f, fZ);       // RIGHT -  TOP  |  ( ++ ,  - )
-            gl.glVertex3f(1.25f, -1.25f, fZ);       // LEFT  -  TOP  |  (  + ,  - )
+            gl.glVertex3f(1.125f, -3.375f, fZ);       // LEFT  -  BOT  |  (  + , -- )
+            gl.glVertex3f(3.375f, -3.375f, fZ);       // RIGHT -  BOT  |  ( ++ , -- )
+            gl.glVertex3f(3.375f, -1.125f, fZ);       // RIGHT -  TOP  |  ( ++ ,  - )
+            gl.glVertex3f(1.125f, -1.125f, fZ);       // LEFT  -  TOP  |  (  + ,  - )
         }
 
         //  x: 1, y: 0      (LEFT col,  MID row)            # 4
         if(selectedCube == 4) {
-            gl.glVertex3f(-3.75f,  -1.25f, fZ);     // LEFT  -  BOT  |  ( -- ,  - )
-            gl.glVertex3f(-1.25f,  -1.25f, fZ);     // RIGHT -  BOT  |  (  - ,  - )
-            gl.glVertex3f(-1.25f,  1.25f,  fZ);     // RIGHT -  TOP  |  (  - ,  + )
-            gl.glVertex3f(-3.75f,  1.25f,  fZ);     // LEFT  -  TOP  |  ( -- ,  + )
+            gl.glVertex3f(-3.375f,  -1.125f, fZ);     // LEFT  -  BOT  |  ( -- ,  - )
+            gl.glVertex3f(-1.125f,  -1.125f, fZ);     // RIGHT -  BOT  |  (  - ,  - )
+            gl.glVertex3f(-1.125f,  1.125f,  fZ);     // RIGHT -  TOP  |  (  - ,  + )
+            gl.glVertex3f(-3.375f,  1.125f,  fZ);     // LEFT  -  TOP  |  ( -- ,  + )
         }
 
 
         //  x: -1, y: 0     (MID col,   MID row)            # 5
         if(selectedCube == 5) {
-            gl.glVertex3f(-1.25f,  -1.25f, fZ);     // LEFT  -  BOT  |  (  - ,  - )
-            gl.glVertex3f(1.25f,   -1.25f, fZ);     // RIGHT -  BOT  |  (  + ,  - )
-            gl.glVertex3f(1.25f,   1.25f,  fZ);     // RIGHT -  TOP  |  (  + ,  + )
-            gl.glVertex3f(-1.25f,  1.25f,  fZ);     // LEFT  -  TOP  |  (  - ,  + )
+            gl.glVertex3f(-1.125f,  -1.125f, fZ);     // LEFT  -  BOT  |  (  - ,  - )
+            gl.glVertex3f(1.125f,   -1.125f, fZ);     // RIGHT -  BOT  |  (  + ,  - )
+            gl.glVertex3f(1.125f,   1.125f,  fZ);     // RIGHT -  TOP  |  (  + ,  + )
+            gl.glVertex3f(-1.125f,  1.125f,  fZ);     // LEFT  -  TOP  |  (  - ,  + )
         }
 
 
         //  x: 1, y: 0      (RIGHT col, MID row)            # 6
         if(selectedCube == 6) {
-            gl.glVertex3f(1.25f, -1.25f, fZ);       // LEFT  -  BOT  |  (  + ,  - )
-            gl.glVertex3f(3.75f, -1.25f, fZ);       // RIGHT -  BOT  |  ( ++ ,  - )
-            gl.glVertex3f(3.75f, 1.25f,  fZ);       // RIGHT -  TOP  |  ( ++ ,  + )
-            gl.glVertex3f(1.25f, 1.25f,  fZ);       // LEFT  -  TOP  |  (  + ,  + )
+            gl.glVertex3f(1.125f, -1.125f, fZ);       // LEFT  -  BOT  |  (  + ,  - )
+            gl.glVertex3f(3.375f, -1.125f, fZ);       // RIGHT -  BOT  |  ( ++ ,  - )
+            gl.glVertex3f(3.375f, 1.125f,  fZ);       // RIGHT -  TOP  |  ( ++ ,  + )
+            gl.glVertex3f(1.125f, 1.125f,  fZ);       // LEFT  -  TOP  |  (  + ,  + )
         }
 
         //  x: -1, y: 1     (LEFT col, TOP row)             # 7
         if(selectedCube == 7) {
-            gl.glVertex3f(-3.75f, 1.25f, fZ);       // LEFT  -  BOT  |  ( -- ,  + )
-            gl.glVertex3f(-1.25f, 1.25f, fZ);       // RIGHT -  BOT  |  (  - ,  + )
-            gl.glVertex3f(-1.25f, 3.75f, fZ);       // RIGHT -  TOP  |  (  - , ++ )
-            gl.glVertex3f(-3.75f, 3.75f, fZ);       // LEFT  -  TOP  |  ( -- , ++ )
+            gl.glVertex3f(-3.375f, 1.125f, fZ);       // LEFT  -  BOT  |  ( -- ,  + )
+            gl.glVertex3f(-1.125f, 1.125f, fZ);       // RIGHT -  BOT  |  (  - ,  + )
+            gl.glVertex3f(-1.125f, 3.375f, fZ);       // RIGHT -  TOP  |  (  - , ++ )
+            gl.glVertex3f(-3.375f, 3.375f, fZ);       // LEFT  -  TOP  |  ( -- , ++ )
         }
 
         //  x: 0, y: 1      (MID col,   TOP row)            # 8
         if(selectedCube == 8) {
-            gl.glVertex3f(-1.25f, 1.25f, fZ);       // LEFT  -  BOT  |  (  - ,  + )
-            gl.glVertex3f( 1.25f, 1.25f, fZ);       // RIGHT -  BOT  |  (  + ,  + )
-            gl.glVertex3f( 1.25f, 3.75f, fZ);       // RIGHT -  TOP  |  (  + , ++ )
-            gl.glVertex3f(-1.25f, 3.75f, fZ);       // LEFT  -  TOP  |  (  - , ++ )
+            gl.glVertex3f(-1.125f, 1.125f, fZ);       // LEFT  -  BOT  |  (  - ,  + )
+            gl.glVertex3f( 1.125f, 1.125f, fZ);       // RIGHT -  BOT  |  (  + ,  + )
+            gl.glVertex3f( 1.125f, 3.375f, fZ);       // RIGHT -  TOP  |  (  + , ++ )
+            gl.glVertex3f(-1.125f, 3.375f, fZ);       // LEFT  -  TOP  |  (  - , ++ )
         }
 
         //  x: 1, y: 1      (RIGHT col, TOP row)            # 9
         if(selectedCube == 9) {
-            gl.glVertex3f(1.25f, 1.25f, fZ);        // LEFT  -  BOT  |  (  + ,  + )
-            gl.glVertex3f(3.75f, 1.25f, fZ);        // RIGHT -  BOT  |  ( ++ ,  + )
-            gl.glVertex3f(3.75f, 3.75f, fZ);        // RIGHT -  TOP  |  ( ++ , ++ )
-            gl.glVertex3f(1.25f, 3.75f, fZ);        // LEFT  -  TOP  |  (  + , ++ )
+            gl.glVertex3f(1.125f, 1.125f, fZ);        // LEFT  -  BOT  |  (  + ,  + )
+            gl.glVertex3f(3.375f, 1.125f, fZ);        // RIGHT -  BOT  |  ( ++ ,  + )
+            gl.glVertex3f(3.375f, 3.375f, fZ);        // RIGHT -  TOP  |  ( ++ , ++ )
+            gl.glVertex3f(1.125f, 3.375f, fZ);        // LEFT  -  TOP  |  (  + , ++ )
         }
 
         gl.glEnd();
@@ -394,56 +400,56 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
 
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);           // bot left front
-        gl.glVertex3f(-1.0f,-1.0f, 1.0f);           // bot right front
-        gl.glVertex3f(-1.0f,1.0f,  1.0f);           // top right front
-        gl.glVertex3f(1.0f, 1.0f,  1.0f);           // top left front
+        gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
+        gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
+        gl.glVertex3f(-1.0f,1.0f,  1.125f);           // top right front
+        gl.glVertex3f(1.0f, 1.0f,  1.125f);           // top left front
 
         // BACK - orange
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(z == 0) gl.glColor3f(1.0f, 0.5f, 0.0f);  // change to orange
 
-        gl.glVertex3f(1.0f, -1.0f,-1.0f);           // bot left back
-        gl.glVertex3f(-1.0f,-1.0f,-1.0f);           // bot right back
-        gl.glVertex3f(-1.0f,1.0f, -1.0f);           // top right back
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);           // top left back
+        gl.glVertex3f(1.0f, -1.0f,-1.125f);           // bot left back
+        gl.glVertex3f(-1.0f,-1.0f,-1.125f);           // bot right back
+        gl.glVertex3f(-1.0f,1.0f, -1.125f);           // top right back
+        gl.glVertex3f(1.0f, 1.0f, -1.125f);           // top left back
 
         // TOP - blue
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(y == 2) gl.glColor3f(0.0f, 0.0f, 1.0f);  // change to blue
 
-        gl.glVertex3f(1.0f, 1.0f, 1.0f);            // bot/front right
-        gl.glVertex3f(-1.0f,1.0f, 1.0f);            // bot/front left
-        gl.glVertex3f(-1.0f,1.0f, -1.0f);           // top/back left
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);           // top/back right
+        gl.glVertex3f(1.0f, 1.125f, 1.0f);            // bot/front right
+        gl.glVertex3f(-1.0f,1.125f, 1.0f);            // bot/front left
+        gl.glVertex3f(-1.0f,1.125f, -1.0f);           // top/back left
+        gl.glVertex3f(1.0f, 1.125f, -1.0f);           // top/back right
 
         // BOTTOM - green
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(y == 0) gl.glColor3f(0.0f, 1.0f, 0.0f);  // change to green
 
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);           // bot/front right
-        gl.glVertex3f(-1.0f,-1.0f, 1.0f);           // bot/front left
-        gl.glVertex3f(-1.0f,-1.0f, -1.0f);          // top/back left
-        gl.glVertex3f(1.0f, -1.0f, -1.0f);          // top/back right
+        gl.glVertex3f(1.0f, -1.125f, 1.0f);           // bot/front right
+        gl.glVertex3f(-1.0f,-1.125f, 1.0f);           // bot/front left
+        gl.glVertex3f(-1.0f,-1.125f, -1.0f);          // top/back left
+        gl.glVertex3f(1.0f, -1.125f, -1.0f);          // top/back right
 
 
         // RIGHT - yellow
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(x == 2) gl.glColor3f(1.0f, 1.0f, 0.0f);  // change to yellow
 
-        gl.glVertex3f(1.0f, -1.0f,-1.0f);           // top left
-        gl.glVertex3f(1.0f, -1.0f,1.0f);            // top right
-        gl.glVertex3f(1.0f, 1.0f, 1.0f);            //
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);           //
+        gl.glVertex3f(1.125f, -1.0f,-1.0f);           // top left
+        gl.glVertex3f(1.125f, -1.0f,1.0f);            // top right
+        gl.glVertex3f(1.125f, 1.0f, 1.0f);            //
+        gl.glVertex3f(1.125f, 1.0f, -1.0f);           //
 
         // LEFT - white
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(x == 0) gl.glColor3f(1.0f, 1.0f, 1.0f);  // change to white
 
-        gl.glVertex3f(-1.0f, -1.0f,-1.0f);
-        gl.glVertex3f(-1.0f, -1.0f,1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(-1.125f, -1.0f,-1.0f);
+        gl.glVertex3f(-1.125f, -1.0f,1.0f);
+        gl.glVertex3f(-1.125f, 1.0f, 1.0f);
+        gl.glVertex3f(-1.125f, 1.0f, -1.0f);
 
         gl.glEnd();
 
@@ -451,7 +457,13 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     private void updateView() {
 
-        //if (viewX == )
+        if (viewX >= -44.9f && viewX <= 44.9f) {
+            if (viewY >= -44.9f && viewY <= 44.9f)  {
+                colorSide = 0;
+            } else {
+                colorSide = 1;
+            }
+        }// else if ()
     }
 
     private boolean isRotating() {
@@ -503,9 +515,10 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     public void keyPressed(KeyEvent e) {
 
         //  VIEW CONTROLS
-        if (e.isControlDown()) {
+        if (e.isShiftDown()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
+                    if (viewX < -360) viewX =
                     viewX -= VIEW_ROT_STEP;
                     System.out.println("x: " + viewX);
                     break;
@@ -630,7 +643,9 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private void selectCube(int number) {
 
         if (viewX >= -22.5f && viewX <= 22.5f) {
+
         }
+
 
     }
 
