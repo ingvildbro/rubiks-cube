@@ -455,7 +455,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         // FRONT - red
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
-        if ((Cube.FACELET_TOP) > 0) glApplyColor(gl, cube.top);
+        //if ((Cube.FACELET_TOP) > 0) glApplyColor(gl, cube.top);
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
@@ -573,7 +573,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         System.out.println(colorSide);
     }
-
+/*
     private void glApplyColor(GL2 gl, Color color) {
         switch (color) {
             case WHITE:
@@ -590,6 +590,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                 gl.glColor3f(ONE_F, ZERO_F, ZERO_F); break;
         }
     }
+    */
     private boolean isRotating() {
         return rotationSectionX + rotationSectionY + rotationSectionZ > -3;
     }

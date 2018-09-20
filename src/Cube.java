@@ -2,7 +2,8 @@ import java.util.ArrayList;
 
 public class Cube {
     // 26 total + 1 in center
-/*
+    //
+    /*
     private ArrayList<Cell> cells = new ArrayList<>();
 
     private int x;
@@ -68,6 +69,27 @@ public class Cube {
         }
     }*/
 
+    /*
+    public static final int[] CUBE_SIDES = new int[] {
+            0, 1, 2,
+            1, 2, 3,
+
+
+    };
+
+    public static final int[] positionX = new int[] {0, 1, 2};
+    public static final int[] positionY = new int[] {0, 1, 2};
+    public static final int[] positionZ = new int[] {0, 1, 2};
+
+
+    public static final int[][][] START_POS_FRONT = {{
+        {positionX[0], positionY[0], positionZ[2]},
+        {positionX[0], positionY[0], positionZ[2]},
+        {positionX[0], positionY[0], positionZ[2]},
+    }};
+    */
+
+    private ArrayList<Cell> cells = new ArrayList<>();
 
     public static final int FACELET_FRONT  = (1 << 0);
     public static final int FACELET_REAR   = (1 << 1);
@@ -83,6 +105,9 @@ public class Cube {
     public static final Color START_COLOR_TOP = Color.BLUE;
     public static final Color START_COLOR_BOT = Color.GREEN;
 
+
+
+
     public enum Color {WHITE, YELLOW, GREEN, ORANGE, BLUE, RED}
 
     Color front = START_COLOR_FRONT;
@@ -91,6 +116,7 @@ public class Cube {
     Color right = START_COLOR_RIGHT;
     Color top = START_COLOR_TOP;
     Color bot = START_COLOR_BOT;
+
 
     public Cube() {}
 
@@ -107,4 +133,20 @@ public class Cube {
         return new Cube(front, back, left, right, top, bot);
     }
 
+    public void addNewCell() {
+        for (Cell c : cells) {
+            //if(c.)
+        }
+    }
+
+
+    /*
+    public void assignDefaultPositions() {
+        int[][][] positions = new int[3][3][3];
+
+        positions[0][0][0] = 0;
+        positions[0][0][1] = 1;
+        positions[0][0][2] = 2;
+    }
+    */
 }

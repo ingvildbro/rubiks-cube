@@ -5,6 +5,8 @@ public class Cell {
     private int z;
     private int color;
 
+    private int[][][] position;
+
     public Cell(int x, int y, int z, int color) {
         this.x = x;
         this.y = y;
@@ -23,6 +25,10 @@ public class Cell {
     public int getZ() {
         return z;
     }
+
+    /*public int[][][] getPosition() {
+        return [this.x][this.y][this.z];
+    }*/
 
     public int getColor() {
         return color;
