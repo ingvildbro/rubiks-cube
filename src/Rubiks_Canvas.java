@@ -39,6 +39,7 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListener, MouseListener {
     private static final String TITLE = "Rubik's Cube";
@@ -649,6 +650,27 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     public void keyPressed(KeyEvent e) {
 
+        System.out.println("toString: " + e.toString());
+
+        System.out.println("KeyCode: " + e.getKeyCode());
+        System.out.println("KeyChar: " + e.getKeyChar());
+        System.out.println("KeySymbol: " + e.getKeySymbol());
+
+        System.out.println("Attachment: " + e.getAttachment());
+        System.out.println("Attachment string: " + e.getAttachment().toString());
+
+        System.out.println("ActionKey: " + e.isActionKey());
+        System.out.println("ModifierKey: " + e.isModifierKey());
+        System.out.println("PrintableKey: " + e.isPrintableKey());
+
+        System.out.println("HashCode: " + e.hashCode());
+        System.out.println("Source: " + e.getSource());
+        System.out.println("EventType: " + e.getEventType());
+
+        System.out.println("ButtonDownCount: " + e.getButtonDownCount());
+        System.out.println("ButtonsDown: " + Arrays.toString(e.getButtonsDown()));
+
+
         //  VIEW CONTROLS
         if (e.isShiftDown()) {
             switch (e.getKeyCode()) {
@@ -732,6 +754,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
 
         } else {
+
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
