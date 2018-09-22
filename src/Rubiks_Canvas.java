@@ -456,7 +456,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         // FRONT - red
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
-        //if ((Cube.FACELET_TOP) > 0) glApplyColor(gl, cube.top);
+        //if ((Cube.FACELET_TOP) > 0) findColor(gl, );
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
@@ -650,6 +650,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     public void keyPressed(KeyEvent e) {
 
+        /*
         System.out.println("toString: " + e.toString());
 
         System.out.println("KeyCode: " + e.getKeyCode());
@@ -669,6 +670,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         System.out.println("ButtonDownCount: " + e.getButtonDownCount());
         System.out.println("ButtonsDown: " + Arrays.toString(e.getButtonsDown()));
+        */
 
 
         //  VIEW CONTROLS
