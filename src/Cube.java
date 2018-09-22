@@ -98,47 +98,69 @@ public class Cube {
     public static final int FACELET_TOP    = (1 << 4);
     public static final int FACELET_BOTTOM = (1 << 5);
 
-    public static final Color START_COLOR_FRONT = Color.RED;
-    public static final Color START_COLOR_BACK = Color.ORANGE;
-    public static final Color START_COLOR_LEFT = Color.WHITE;
-    public static final Color START_COLOR_RIGHT = Color.YELLOW;
-    public static final Color START_COLOR_TOP = Color.BLUE;
-    public static final Color START_COLOR_BOT = Color.GREEN;
+    public static final int START_COLOR_FRONT = 0; //RED
+    public static final int START_COLOR_BACK = 1; //ORANGE
+    public static final int START_COLOR_TOP = 2; //BLUE
+    public static final int START_COLOR_BOT = 3; //GREEN
+    public static final int START_COLOR_RIGHT = 4; //YELLOW
+    public static final int START_COLOR_LEFT = 5; //WHITE
 
 
-
-
-    public enum Color {WHITE, YELLOW, GREEN, ORANGE, BLUE, RED}
-
-    Color front = START_COLOR_FRONT;
-    Color back = START_COLOR_BACK;
-    Color left = START_COLOR_LEFT;
-    Color right = START_COLOR_RIGHT;
-    Color top = START_COLOR_TOP;
-    Color bot = START_COLOR_BOT;
+    int front = START_COLOR_FRONT;
+    int back = START_COLOR_BACK;
+    int left = START_COLOR_LEFT;
+    int right = START_COLOR_RIGHT;
+    int top = START_COLOR_TOP;
+    int bot = START_COLOR_BOT;
 
 
     public Cube() {}
 
-    public Cube(Color front, Color back, Color left, Color right, Color top, Color bot) {
+    public Cube(int front, int back, int top, int bot, int right, int left) {
         this.front = front;
         this.back = back;
-        this.left = left;
-        this.right = right;
         this.top = top;
         this.bot = bot;
+        this.right = right;
+        this.left = left;
     }
 
     public Cube getCopy() {
         return new Cube(front, back, left, right, top, bot);
     }
 
-    public void addNewCell() {
-        for (Cell c : cells) {
-            //if(c.)
+    public boolean addCell() {
+        if (cells.size() >= 54) {
+            return false;
         }
+
+        for (Cell c : cells) {
+            //if (cells.)
+        }
+        return false;
     }
 
+    public void getPosition() {
+
+    }
+
+    public boolean setNewPosition() {
+        for (Cell c : cells) {
+            //if ()
+        }
+
+        return false;
+    }
+
+
+    public int getSides() {
+        int sides = 0;
+        int[][][] position;
+        for (Cell c : cells) {
+            //if (c.)
+        }
+        return sides;
+    }
 
     /*
     public void assignDefaultPositions() {
