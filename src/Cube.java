@@ -106,6 +106,14 @@ public class Cube {
     public static final int START_COLOR_LEFT = 5; //WHITE
 
 
+    private final int startX;
+    private final int startY;
+    private final int startZ;
+
+    private int x;
+    private int y;
+    private int z;
+
     int front = START_COLOR_FRONT;
     int back = START_COLOR_BACK;
     int left = START_COLOR_LEFT;
@@ -114,9 +122,16 @@ public class Cube {
     int bot = START_COLOR_BOT;
 
 
-    public Cube() {}
+    public Cube(int startX, int startY, int startZ,
+    int front, int back, int top, int bot, int right, int left) {
+        this.startX = startX;
+        this.startY = startY;
+        this.startZ = startZ;
 
-    public Cube(int front, int back, int top, int bot, int right, int left) {
+        this.x = startX;
+        this.y = startY;
+        this.z = startZ;
+
         this.front = front;
         this.back = back;
         this.top = top;
@@ -125,8 +140,33 @@ public class Cube {
         this.left = left;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
+    }
+
+
     public Cube getCopy() {
-        return new Cube(front, back, left, right, top, bot);
+        return new Cube(startX, startY, startZ, front, back, top, bot, right, left);
     }
 
     public boolean addCell() {
@@ -140,9 +180,10 @@ public class Cube {
         return false;
     }
 
-    public void getPosition() {
-
-    }
+    /*public int[][][] findPosition() {
+        int[][][] pos = new int[1][1][1];
+        //pos[0][0][0] = {}
+    }*/
 
     public boolean setNewPosition() {
         for (Cell c : cells) {
@@ -162,6 +203,45 @@ public class Cube {
         return sides;
     }
 
+
+    public void createCell(int x, int y, int z, int color) {
+        Cell cell = new Cell(x, y, z, color);
+
+        for (Cell c : cells) {
+            if (c.equals(cell)) {
+
+            }
+        }
+    }
+
+    public void addNewCell(Cell cell) {
+        cells.add(cell);
+    }
+
+    public void updateCell(Cell cell) {
+        //cell.setX();
+    }
+
+    public Cell findCellsByPos(int x, int y, int z) {
+        for (Cell c : cells) {
+            if (c.getX() == x && c.getY() == y && c.getZ() == z) {
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    public Cell findCellsByColor(int color) {
+        for (Cell c : cells) {
+            if (c.getColor() == color) {
+                return c;
+            }
+        }
+        return null;
+
+    }
+
     /*
     public void assignDefaultPositions() {
         int[][][] positions = new int[3][3][3];
@@ -171,4 +251,5 @@ public class Cube {
         positions[0][0][2] = 2;
     }
     */
+
 }

@@ -23,7 +23,6 @@ public class RubiksCube {
 
     public RubiksCube() {
         this.state = new Cube[3][3][3];
-        resetState();
     }
 
     public RubiksCube(Cube[][][] state) {
@@ -34,21 +33,12 @@ public class RubiksCube {
         return state;
     }
 
-    public Cube getCube(CubiePosition position) {
-        return getCube(position.x, position.y, position.z);
+    public Cube getCube(CubePosition position) {
+        return getCube(position.getX(), position.getY(), position.getZ());
     }
 
     public Cube getCube(int x, int y, int z) {
         return state[x][y][z];
-    }
-
-
-    public int getCountCubes() {
-        return cubes.size();
-    }
-
-    public void addCube(Cube cube) {
-        cubes.add(cube);
     }
 
     public void applyRotation(Rotation rotation) {
@@ -65,15 +55,15 @@ public class RubiksCube {
         }
     }
 
-    public void resetState() {
-        for (int x=0; x<3; x++) {
-            for (int y=0; y<3; y++) {
-                for (int z=0; z<3; z++) {
+    /*public void resetState() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
                     state[x][y][z] = new Cube();
                 }
             }
         }
-    }
+    }*/
 
     public RubiksCube getCopy() {
         return new RubiksCube(copyState());
@@ -149,6 +139,48 @@ public class RubiksCube {
             }
         }
         return dest;
+    }
+
+
+
+    //  CREATE CUBE
+    public Cube createCube(int x, int y, int z) {
+        for (Cube c : cubes) {
+            //if (c.)
+        }
+        return null;
+    }
+
+
+    public int getCountCubes() {
+        return cubes.size();
+    }
+
+    public void addCube(Cube cube) {
+        cubes.add(cube);
+    }
+
+    public void updateCube(Cube cube, int x, int y, int z) {
+        cube.setX(x);
+        cube.setY(y);
+        cube.setZ(z);
+    }
+
+    public boolean addNewCube(Cube cube) {
+        for (Cube c : cubes) {
+            if (c.equals(cube)){
+                return false;
+            }
+        }
+        cubes.add(cube);
+        return true;
+    }
+
+    public boolean findCube(int x, int y, int z) {
+        for (Cube c : cubes) {
+
+        }
+        return false;
     }
 
     /*

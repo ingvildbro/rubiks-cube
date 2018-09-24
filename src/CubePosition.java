@@ -1,10 +1,55 @@
-public class CubiePosition {
+public class CubePosition {
 
-    int x, y, z;
+    private final int startX;
+    private final int startY;
+    private final int startZ;
 
-    public CubiePosition(int x, int y, int z) {
+    private int x;
+    private int y;
+    private int z;
+
+    public CubePosition(int startX, int startY, int startZ) {
+        this.startX = startX;
+        this.startY = startY;
+        this.startZ = startZ;
+        this.x = startX;
+        this.y = startY;
+        this.z = startZ;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getStartZ() {
+        return startZ;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setX(int x) {
         this.x = x;
+    }
+
+    public void setY(int y) {
         this.y = y;
+    }
+
+    public void setZ(int z) {
         this.z = z;
     }
 
@@ -47,7 +92,7 @@ public class CubiePosition {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        CubiePosition other = (CubiePosition) obj;
+        CubePosition other = (CubePosition) obj;
         if (x != other.x) return false;
         if (y != other.y) return false;
         if (z != other.z) return false;

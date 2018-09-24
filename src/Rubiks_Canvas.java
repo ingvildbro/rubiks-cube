@@ -254,9 +254,17 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                     gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
                     gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
-                    gl.glTranslatef((x-1)*2.25f, (y-1)*2.25f, (z-1)*2.25f);
+                    gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
 
-                    drawCube(gl, x, y, z);
+                    Cube cube = rubiksCube.createCube(x, y, z);
+                    if (!(rubiksCube.findCube(x, y, z))) {
+                        // first drawing
+                        drawCube(gl, x, y, z, cube);
+                    } else {
+                        // update position
+                        drawCube(gl, x, y, z, cube);
+
+                    }
 
                     gl.glPopMatrix();
                 }
@@ -264,7 +272,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         }
 
         gl.glTranslatef(0.0f, 0.0f, 0.0f);
-        // drawBackgroundDefault(gl);
+        drawBackgroundDefault(gl);
     }
 
     private void drawBackgroundZ(GL2 gl) {
@@ -445,7 +453,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     }
 
-    private void drawCube(GL2 gl, int x, int y, int z) {
+    private void drawCube(GL2 gl, int x, int y, int z, Cube cube) {
         // Start drawing quads to form a single cube
 
         gl.glEnable(GL_COLOR_MATERIAL);
@@ -455,8 +463,12 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         // FRONT - red
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
-        //if ((Cube.FACELET_TOP) > 0) findColor(gl, );
+        //if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
+        if (cube.front == 0) {
+            //findColor();
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            cube.createCell(x, y, z, 0);
+        }
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
