@@ -242,6 +242,10 @@ public class Cube {
 
     }
 
+    public int findFront(){
+        return front;
+    }
+
     /*
     public void assignDefaultPositions() {
         int[][][] positions = new int[3][3][3];

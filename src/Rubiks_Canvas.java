@@ -256,12 +256,16 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
                     gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
 
-                    Cube cube = rubiksCube.createCube(x, y, z);
+
                     if (!(rubiksCube.findCube(x, y, z))) {
-                        // first drawing
+                        // first drawing, create cube
+                        Cube cube = rubiksCube.createCube(x, y, z);
+                        rubiksCube.addCube(cube);
                         drawCube(gl, x, y, z, cube);
                     } else {
                         // update position
+                        Cube cube = rubiksCube.getCube(x, y, z);
+                        rubiksCube.updateCube(cube, x, y, z);
                         drawCube(gl, x, y, z, cube);
 
                     }
@@ -465,7 +469,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
         //if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
         if (cube.front == 0) {
-            //findColor();
+            findColor(gl, cube.front);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
             cube.createCell(x, y, z, 0);
         }
