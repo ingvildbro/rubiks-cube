@@ -261,12 +261,12 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                         // first drawing, create cube
                         Cube cube = rubiksCube.createCube(x, y, z);
                         rubiksCube.addCube(cube);
-                        drawCube(gl, x, y, z, cube);
+                        drawCube(gl, x, y, z, cube, true);
                     } else {
                         // update position
                         Cube cube = rubiksCube.getCube(x, y, z);
                         rubiksCube.updateCube(cube, x, y, z);
-                        drawCube(gl, x, y, z, cube);
+                        drawCube(gl, x, y, z, cube, false);
 
                     }
 
@@ -457,7 +457,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     }
 
-    private void drawCube(GL2 gl, int x, int y, int z, Cube cube) {
+    private void drawCube(GL2 gl, int x, int y, int z, Cube cube, boolean initial) {
         // Start drawing quads to form a single cube
 
         gl.glEnable(GL_COLOR_MATERIAL);
@@ -470,9 +470,16 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         //if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
         if (cube.front == 0) {
             findColor(gl, cube.front);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-            cube.createCell(x, y, z, 0);
+            //gl.glColor3f(1.0f, 0.0f, 0.0f);
+            //cube.createCell(x, y, z, 0);
         }
+
+        if (initial && z == 2) {
+            Cell cell = cube.createCell(0);
+            cell.setSide(0);
+        }
+
+        //if ()
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front

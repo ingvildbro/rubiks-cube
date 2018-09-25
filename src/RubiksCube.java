@@ -4,6 +4,7 @@ public class RubiksCube {
 
     private ArrayList<Cube> cubes = new ArrayList<>();
 
+
     //  X values
     public static final int X_LEFT = 0;
     public static final int X_MID = 1;
@@ -67,6 +68,111 @@ public class RubiksCube {
 
     public RubiksCube getCopy() {
         return new RubiksCube(copyState());
+    }
+
+    public void rotateSlice(int axis, int sectionX, int sectionY, int sectionZ, boolean direction) {
+        if (axis == 0) {
+            rotateSliceY(sectionY, sectionZ, direction);
+        } else if (axis == 1) {
+            rotateSliceY(sectionY, sectionZ, direction);
+        }
+    }
+
+    private void rotateSliceY(int sectionY, int sectionZ, boolean direction) {
+        int[] index = new int[8];
+        int ind = 0;
+        for (Cube cube : cubes) {
+            if ((cube.getY() == sectionY) && cube.getZ() == sectionZ) {
+                index[ind] = cubes.indexOf(cube);
+            }
+            ind++;
+        }
+
+        for (int i = 0; i < index.length; i++) {
+            Cube cube = cubes.get(index[i]);
+
+            if (direction) {
+                //cube.setX();
+                //cube.setY();
+                //cube.setZ();
+            } else {
+
+            }
+        }
+
+
+        for (Cube cube : cubes) {
+
+            if (cube.getY() == sectionY) {
+                //cube.front = (direction) ? cubes.get((cubes.indexOf(cube)-2))
+            }
+        }
+
+
+
+        ArrayList<Cube> c1;
+        ArrayList<Cube> c2;
+        ArrayList<Cube> c3;
+        ArrayList<Cube> c4;
+        //cubes.set() // index, cube
+
+
+        //NEW
+        int[] ids = new int[8];
+        int id = 0;
+
+        for (Cube cube : cubes) {
+
+            if (cube.getY() == sectionY) {
+                ids[id] = cubes.indexOf(cube);
+                id++;
+            }
+        }
+
+        if (direction) {
+            for (int i = ids.length-1; i >= 0; i--) {
+                //updateCube(cubes.get(ids[i]), );
+            }
+        }
+
+        for (Cube cube : cubes) {
+            //if (cubes.i)
+            //cube.updateCell();
+        }
+    }
+
+    private void rotateSliceZ(int sectionZ, boolean direction) {
+
+        ArrayList<Cube> cClone = new ArrayList<Cube>();
+
+        //cubes.removeIf()
+        int side = 0;
+        for (Cube cube : cubes) {
+            if (cube.getZ() == sectionZ) {
+                //c
+                //cube.getCells()
+                //cubesClone.remove(cube);
+            }
+        }
+
+        for (Object c : cClone) {
+
+        }
+
+        for (Cube cube : cubes) {
+            //cubes.set().
+        }
+    }
+
+
+    private ArrayList<Cube> filterX(int x) {
+        ArrayList<Cube> filtered = new ArrayList<Cube>();
+        for (Cube cube : cubes) {
+            if (cube.getX() == x) {
+                filtered.add(cube);
+            }
+        }
+        return filtered;
     }
 
     private void applyXRotation(Rotation rotation) {
@@ -146,9 +252,13 @@ public class RubiksCube {
     //  CREATE CUBE
     public Cube createCube(int x, int y, int z) {
         for (Cube c : cubes) {
-            //if (c.)
+            if (c.getX() == x && c.getY() == y && c.getZ() == z) {
+                return c;
+            }
         }
-        return null;
+        Cube newCube = new Cube(x, y, z);
+        addCube(newCube);
+        return newCube;
     }
 
 
@@ -166,15 +276,6 @@ public class RubiksCube {
         cube.setZ(z);
     }
 
-    public boolean addNewCube(Cube cube) {
-        for (Cube c : cubes) {
-            if (c.equals(cube)){
-                return false;
-            }
-        }
-        cubes.add(cube);
-        return true;
-    }
 
     public boolean findCube(int x, int y, int z) {
         for (Cube c : cubes) {
