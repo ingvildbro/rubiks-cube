@@ -1,9 +1,17 @@
 public class Cell {
     // 54 total
     
-    private final int color;
+    private int color;
 
-    private int side;
+    private final int side;
+
+
+    private int front;
+    private int back;
+    private int top;
+    private int bot;
+    private int right;
+    private int left;
 
 
     public static final int RED = 0;
@@ -14,9 +22,9 @@ public class Cell {
     public static final int WHITE = 5;
 
 
-    public Cell(int color) {
-        this.color = color;
-        this.side = color;
+    public Cell(int side) {
+        this.side = side;
+        this.color = side;
     }
 
     public int getColor() {
@@ -24,14 +32,13 @@ public class Cell {
     }
 
 
-
     public int getSide() {
         return side;
     }
 
 
-    public void setSide(int side) {
-        this.side = side;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     @Override

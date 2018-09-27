@@ -1,34 +1,30 @@
 public class Rotation {
 
-    public enum Axis { X, Y, Z }
+    //public enum Axis { X, Y, Z }
 
-    public enum Direction { POSITIVE, NEGATIVE }
+    //public enum Direction { POSITIVE, NEGATIVE }
 
-    Axis axis;
-    Direction direction;
+    int axis;
+    boolean reverse;
     int section;
 
 
-    public Rotation(Axis axis, Direction direction, int section) {
+    public Rotation(int axis, boolean reverse, int section) {
         this.axis = axis;
-        this.direction = direction;
+        this.reverse = reverse;
         this.section = section;
     }
 
-    public Axis getAxis() {
+    public int getAxis() {
         return axis;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public boolean isReverse() {
+        return reverse;
     }
 
     public int getSection() {
         return section;
-    }
-
-    public boolean isPositive() {
-        return (direction == Direction.POSITIVE);
     }
 
     /*int x, y, z;

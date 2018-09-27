@@ -94,12 +94,15 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         final FPSAnimator animator = new FPSAnimator(window, FPS, true);
         window.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowDestroyNotify(WindowEvent windowEvent) {
-                new Thread(() -> {
-                    animator.stop();
-                    System.exit(0);
-                }).start();
-            }
+            public void windowDestroyNotify(WindowEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        animator.stop();
+                        System.exit(0);
+                    }
+                }.start();
+            };
         });
 
         Rubiks_Canvas rubiksCanvas = new Rubiks_Canvas();
@@ -292,7 +295,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         float fX = 1.0f;
         float fY = 1.0f;
-        float fZ = 1.0f;
+        float fZ = (selectedCubePos[2] == 0) ? -3.375f : (selectedCubePos[2] == 2) ? 3.375f : 0.0f;
 
 
 
@@ -388,80 +391,140 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
 
         // FRONT - red
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(0) != null) {
             findColor(gl, cube.findCellBySide(0).getColor());
         }
 
-        gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
-        gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
-        gl.glVertex3f(-1.0f,1.0f,  1.125f);           // top right front
-        gl.glVertex3f(1.0f, 1.0f,  1.125f);           // top left front
+        gl.glVertex3f(1.0f, -1.0f, 1.125f);          // bot left front
+        gl.glVertex3f(-1.0f,-1.0f, 1.125f);          // bot right front
+        gl.glVertex3f(-1.0f,1.0f,  1.125f);          // top right front
+        gl.glVertex3f(1.0f, 1.0f,  1.125f);          // top left front
+
+
+        // mini cube - red
+        gl.glColor3f(0.5f, 0.0f, 0.0f);
+
+        gl.glVertex3f(0.5f, -0.5f, 1.126f);          // bot left front
+        gl.glVertex3f(-0.5f,-0.5f, 1.126f);          // bot right front
+        gl.glVertex3f(-0.5f,0.5f,  1.126f);          // top right front
+        gl.glVertex3f(0.5f, 0.5f,  1.126f);          // top left front
+
 
 
         // BACK - orange
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(1) != null) {
-            findColor(gl, cube.findCellBySide(1).getColor());
+            findColor(gl, cube.findCellBySide(1).getColor());   //
         }
 
-        gl.glVertex3f(1.0f, -1.0f,-1.125f);           // bot left back
-        gl.glVertex3f(-1.0f,-1.0f,-1.125f);           // bot right back
-        gl.glVertex3f(-1.0f,1.0f, -1.125f);           // top right back
-        gl.glVertex3f(1.0f, 1.0f, -1.125f);           // top left back
+        gl.glVertex3f(1.0f, -1.0f,-1.125f);          // bot left back    +  -  -
+        gl.glVertex3f(-1.0f,-1.0f,-1.125f);          // bot right back   -  -  -
+        gl.glVertex3f(-1.0f,1.0f, -1.125f);          // top right back   -  +  -
+        gl.glVertex3f(1.0f, 1.0f, -1.125f);          // top left back    +  +  -
+
+        // mini cube - orange
+        gl.glColor3f(0.5f, 0.25f, 0.0f);
+
+        gl.glVertex3f(0.5f, -0.5f, -1.126f);         // bot left front
+        gl.glVertex3f(-0.5f,-0.5f, -1.126f);         // bot right front
+        gl.glVertex3f(-0.5f,0.5f,  -1.126f);         // top right front
+        gl.glVertex3f(0.5f, 0.5f,  -1.126f);         // top left front
 
 
-        // TOP - blue
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+
+        /*           --------     TOP      --------             */
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(2) != null) {
             findColor(gl, cube.findCellBySide(2).getColor());
         }
-        gl.glVertex3f(1.0f, 1.125f, 1.0f);            // bot/front right
-        gl.glVertex3f(-1.0f,1.125f, 1.0f);            // bot/front left
-        gl.glVertex3f(-1.0f,1.125f, -1.0f);           // top/back left
-        gl.glVertex3f(1.0f, 1.125f, -1.0f);           // top/back right
+        gl.glVertex3f(1.0f, 1.125f, 1.0f);           // bot/front right  +  +  +
+        gl.glVertex3f(-1.0f,1.125f, 1.0f);           // bot/front left   -  +  +
+        gl.glVertex3f(-1.0f,1.125f, -1.0f);          // top/back left    -  +  -
+        gl.glVertex3f(1.0f, 1.125f, -1.0f);          // top/back right   +  +  -
 
 
-        // BOTTOM - green
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+        // mini cube - blue .   .   .   .   .   .   .   .   .   .   .   .   .   .
+        gl.glColor3f(0.0f, 0.0f, 0.5f);
+
+        gl.glVertex3f(0.5f, 1.126f, 0.5f);           // bot/front right
+        gl.glVertex3f(-1.0f,1.126f, 0.5f);           // bot/front left
+        gl.glVertex3f(-0.5f,1.126f, -0.5f);          // top/back left
+        gl.glVertex3f(0.5f, 1.126f, -0.5f);          // top/back right
+
+
+
+        /*           --------    BOTTOM    --------             */
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(3) != null) {
             findColor(gl, cube.findCellBySide(3).getColor());
         }
 
-        gl.glVertex3f(1.0f, -1.125f, 1.0f);           // bot/front right
-        gl.glVertex3f(-1.0f,-1.125f, 1.0f);           // bot/front left
-        gl.glVertex3f(-1.0f,-1.125f, -1.0f);          // top/back left
-        gl.glVertex3f(1.0f, -1.125f, -1.0f);          // top/back right
+        gl.glVertex3f(1.0f, -1.125f, 1.0f);          // bot/front right
+        gl.glVertex3f(-1.0f,-1.125f, 1.0f);          // bot/front left
+        gl.glVertex3f(-1.0f,-1.125f, -1.0f);         // top/back left
+        gl.glVertex3f(1.0f, -1.125f, -1.0f);         // top/back right
 
 
-        // RIGHT - yellow
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+        // mini cube - green    .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+        gl.glColor3f(0.0f, 0.5f, 0.0f);
+
+        gl.glVertex3f(0.5f, -1.126f, 0.5f);          // bot/front right
+        gl.glVertex3f(-0.5f,-1.126f, 0.5f);          // bot/front left
+        gl.glVertex3f(-0.5f,-1.126f, -0.5f);         // top/back left
+        gl.glVertex3f(0.5f, -1.126f, -0.5f);         // top/back right
+        /*  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   */
+        //  .   .   .   .   .   .   .
+
+
+        /*           --------    RIGHT     --------             */
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(4) != null) {
             findColor(gl, cube.findCellBySide(4).getColor());
         }
 
-        gl.glVertex3f(1.125f, -1.0f,-1.0f);           // top left
-        gl.glVertex3f(1.125f, -1.0f,1.0f);            // top right
-        gl.glVertex3f(1.125f, 1.0f, 1.0f);            //
-        gl.glVertex3f(1.125f, 1.0f, -1.0f);           //
+        gl.glVertex3f(1.125f, -1.0f,-1.0f);          // bot left/        +  -  -
+        gl.glVertex3f(1.125f, -1.0f,1.0f);           // bot right       +  -  +
+        gl.glVertex3f(1.125f, 1.0f, 1.0f);           // top
+        gl.glVertex3f(1.125f, 1.0f, -1.0f);          // top
 
 
-        // LEFT - white
-        gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
+        // mini cube - yellow
+        gl.glColor3f(0.5f, 0.5f, 0.0f);
+
+        gl.glVertex3f(1.126f, -0.5f,-0.5f);          // top left
+        gl.glVertex3f(1.126f, -0.5f,0.5f);           // top right
+        gl.glVertex3f(1.126f, 0.5f, 0.5f);           //
+        gl.glVertex3f(1.126f, 0.5f, -0.5f);          //
+        /*  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   */
+
+
+        /*  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   */
+        /*          --------     LEFT     --------              */
+        gl.glColor3f(0.0f, 0.0f, 0.0f);              // inside black
 
         if (cube.findCellBySide(5) != null) {
             findColor(gl, cube.findCellBySide(5).getColor());
         }
 
-        gl.glVertex3f(-1.125f, -1.0f,-1.0f);
-        gl.glVertex3f(-1.125f, -1.0f,1.0f);
-        gl.glVertex3f(-1.125f, 1.0f, 1.0f);
-        gl.glVertex3f(-1.125f, 1.0f, -1.0f);
+        gl.glVertex3f(-1.125f, -1.0f,-1.0f);         //
+        gl.glVertex3f(-1.125f, -1.0f,1.0f);          //
+        gl.glVertex3f(-1.125f, 1.0f, 1.0f);          //
+        gl.glVertex3f(-1.125f, 1.0f, -1.0f);         //
+
+
+        // mini cube - white
+        gl.glColor3f(0.5f, 0.5f, 0.5f);
+
+        gl.glVertex3f(-1.126f, -0.5f,-0.5f);         //
+        gl.glVertex3f(-1.126f, -0.5f,0.5f);          //
+        gl.glVertex3f(-1.126f, 0.5f, 0.5f);          //
+        gl.glVertex3f(-1.126f, 0.5f, -0.5f);         //
 
         gl.glEnd();
 
@@ -526,7 +589,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
             }
         }
 
-        System.out.println(colorSide);
+        System.out.println("View-side: " + colorSide);
     }
 
     private void findColor(GL2 gl, int color) {
@@ -594,18 +657,94 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     // section is the index of the column/row/face that is to be rotated.
     // if reverse is true then rotation will be clockwise
-    private void rotateSection(int section, Rotation.Axis axis, boolean reverse) {
+    private void rotateSection(int section, int axis, boolean reverse) {
         // make sure nothing is currently rotating
         if (!isRotating()) {
-            if (axis == Rotation.Axis.X) rotationSectionX = section;
-            if (axis == Rotation.Axis.Y) rotationSectionY = section;
-            if (axis == Rotation.Axis.Z) rotationSectionZ = section;
+            if (axis == 0) rotationSectionX = section;
+            if (axis == 1) rotationSectionY = section;
+            if (axis == 2) rotationSectionZ = section;
             angularVelocity = reverse ? -Math.abs(angularVelocity) : Math.abs(angularVelocity);
         }
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
-        //  VIEW CONTROLS
+        //keyAlt1(e);
+        keyAlt2(e);
+        //keyAlt3(e);
+    }
+
+    private void selectCube(int number) {
+        updateView();
+
+        if (number == 1 || number == 4 || number == 7) {
+            selectedCubePos[0] = 0;
+        } else if (number == 2 || number == 5 || number == 8) {
+            selectedCubePos[0] = 1;
+        } else {
+            selectedCubePos[0] = 2;
+        }
+
+        if (number < 4) {
+            selectedCubePos[1] = 0;
+        } else if (number < 7) {
+            selectedCubePos[1] = 1;
+        } else {
+            selectedCubePos[1] = 2;
+        }
+
+        switch (colorSide) {
+            case 0: // x, y, 2  front/red
+                selectedCubePos[2] = 2; // z = 2
+                break;
+
+            case 1: // x, y, 0  back/orange
+                selectedCubePos[2] = 0; // z = 0
+                break;
+
+            case 2: // x, 2, z  top/blue
+                selectedCubePos[1] = 2; // y = 2
+                break;
+
+            case 3: // x, 0, z  bot/green
+                selectedCubePos[1] = 0; // y = 0
+                break;
+
+            case 4: // 2, y, z  right/yellow
+                selectedCubePos[0] = 2; // x = 2
+                break;
+
+            case 5: // 0, y, z  left/white
+                selectedCubePos[0] = 0; // x = 0
+                break;
+        }
+
+        if (colorSide == 2 || colorSide == 3) {
+            //  set z
+            if (number < 4) {
+                selectedCubePos[2] = 2;
+            } else if (number < 7) {
+                selectedCubePos[2] = 1;
+            } else {
+                selectedCubePos[2] = 0;
+            }
+
+        } else if (colorSide > 3) {
+            //  set y, z
+            if (number == 1 || number == 4 || number == 7) {
+                selectedCubePos[2] = 2;
+            } else if (number == 2 || number == 5 || number == 8) {
+                selectedCubePos[2] = 1;
+            } else {
+                selectedCubePos[2] = 0;
+            }
+        }
+
+        System.out.println("Selected x: " + selectedCubePos[0] + ", y: " + selectedCubePos[1] + ", z: " + selectedCubePos[2]);
+    }
+
+
+    private void keyAlt1(KeyEvent e) {
         if (e.isShiftDown()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
@@ -657,7 +796,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
                         rubiksCube.rotateByAxis(0, selectedCubePos, false);
 
-                        //rotateSection(selectedCubePos[1], Rotation.Axis.Y, false);
+                        //rotateSection(selectedCubePos[1], int 1, false);
                         break;
 
                     case KeyEvent.VK_DOWN:
@@ -769,85 +908,186 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         }
     }
 
-    private void selectCube(int number) {
-        updateView();
-
-        if (number == 1 || number == 4 || number == 7) {
-            selectedCubePos[0] = 0;
-        } else if (number == 2 || number == 5 || number == 8) {
-            selectedCubePos[0] = 1;
+    private void keyAlt2(KeyEvent e) {
+        if (e.isShiftDown()) {
+            keyAlt2view(e);
         } else {
-            selectedCubePos[0] = 2;
+            keyAlt2select(e);
         }
+    }
 
-        if (number < 4) {
-            selectedCubePos[1] = 0;
-        } else if (number < 7) {
-            selectedCubePos[1] = 1;
-        } else {
-            selectedCubePos[1] = 2;
-        }
+    private void keyAlt2view(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
 
-        switch (colorSide) {
-            case 0: // x, y, 2  front/red
-
-                selectedCubePos[2] = 2; // z = 2
+                viewX -= VIEW_ROT_STEP;
+                if (viewX < 0) viewX += 360;
                 break;
 
-            case 1: // x, y, 0  back/orange
-
-
-                selectedCubePos[2] = 0; // z = 0
+            case KeyEvent.VK_DOWN:
+                viewX += VIEW_ROT_STEP;
+                if (viewX > 360) viewX -= 360;
                 break;
 
-            case 2: // x, 2, z  top/blue
-                //selectedCubePos[2] = selectedCubePos[1];
-
-                selectedCubePos[1] = 2; // y = 2
+            case KeyEvent.VK_LEFT:
+                viewY -= VIEW_ROT_STEP;
+                if (viewY < 0) viewY += 360;
                 break;
 
-            case 3: // x, 0, z  bot/green
-                //selectedCubePos[0] = 0;
-                selectedCubePos[1] = 0; // y = 0
-                //selectedCubePos[2] = 2;
+            case KeyEvent.VK_RIGHT:
+                viewY += VIEW_ROT_STEP;
+                if (viewY > 360) viewY -= 360;
                 break;
 
-            case 4: // 2, y, z  right/yellow
-                selectedCubePos[0] = 2; // x = 2
-                //selectedCubePos[1] = 0;
-                //selectedCubePos[2] = 2;
-                break;
-
-            case 5: // 0, y, z  left/white
-                selectedCubePos[0] = 0; // x = 0
-                //selectedCubePos[1] = 0;
-                //selectedCubePos[2] = 2;
+            case KeyEvent.VK_SPACE:
+                viewZ -= VIEW_ZOOM_STEP;
+                if (viewZ < 0) viewZ += 360;
                 break;
         }
+    }
 
+    private void keyAlt2select(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_Q:
+                selectedCube = 7;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.X_LEFT, 0, e.isShiftDown());
+                break;
+            case KeyEvent.VK_W:
+                selectedCube = 8;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.X_MID, 0, e.isShiftDown());
+                break;
+            case KeyEvent.VK_E:
+                selectedCube = 9;
+                isSelected = true;
+                //rotateSection(RubiksCube.X_RIGHT, 0, e.isShiftDown());
+                break;
+            case KeyEvent.VK_A:
+                selectedCube = 4;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Y_BOT, 1, e.isShiftDown());
+                break;
+            case KeyEvent.VK_S:
+                selectedCube = 5;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Y_MID, 1, e.isShiftDown());
+                break;
+            case KeyEvent.VK_D:
+                selectedCube = 6;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Y_TOP, 1, e.isShiftDown());
+                break;
+            case KeyEvent.VK_Z:
+                selectedCube = 1;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Z_FRONT, 2, e.isShiftDown());
+                break;
+            case KeyEvent.VK_X:
+                selectedCube = 2;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Z_MID, 2, e.isShiftDown());
+                break;
+            case KeyEvent.VK_C:
+                selectedCube = 3;
+                isSelected = true;
+                selectCube(selectedCube);
+                //rotateSection(RubiksCube.Z_BACK, 2, e.isShiftDown());
+                break;
 
-        if (colorSide == 2 || colorSide == 3) {
-            //  set z
-            if (number < 4) {
-                selectedCubePos[2] = 2;
-            } else if (number < 7) {
-                selectedCubePos[2] = 1;
-            } else {
-                selectedCubePos[2] = 0;
-            }
+            case KeyEvent.VK_UP:
 
-        } else if (colorSide > 3) {
-            //  set y, z
-            if (number == 1 || number == 4 || number == 7) {
-                selectedCubePos[2] = 2;
-            } else if (number == 2 || number == 5 || number == 8) {
-                selectedCubePos[2] = 1;
-            } else {
-                selectedCubePos[2] = 0;
-            }
+                rubiksCube.rotateByAxis(0, selectedCubePos, false);
+
+                //rotateSection(selectedCubePos[1], int 1, false);
+                keyAlt2rotate();
+                break;
+
+            case KeyEvent.VK_DOWN:
+                rubiksCube.rotateByAxis(0, selectedCubePos, true);
+                //rotateSection(selectedCubePos[1], Rotation.Axis.Y, true);
+                keyAlt2rotate();
+                break;
+
+            case KeyEvent.VK_LEFT:
+                rubiksCube.rotateByAxis(1, selectedCubePos, true);
+                //rotateSection(selectedCubePos[0], Rotation.Axis.X, true);
+                keyAlt2rotate();
+                break;
+
+            case KeyEvent.VK_RIGHT:
+
+                rubiksCube.rotateByAxis(1, selectedCubePos, false);
+                //rotateSection(selectedCubePos[0], Rotation.Axis.X, false);
+                keyAlt2rotate();
+                break;
+
+            case KeyEvent.VK_PLUS:
+
+                rubiksCube.rotateByAxis(2, selectedCubePos, false);
+                //rotateSection(selectedCubePos[2], Rotation.Axis.Z, false);
+                keyAlt2rotate();
+                break;
+
+            case KeyEvent.VK_MINUS:
+
+                rubiksCube.rotateByAxis(2, selectedCubePos, true);
+                //rotateSection(selectedCubePos[2], Rotation.Axis.Z, true);
+                keyAlt2rotate();
+                break;
         }
+    }
 
-        System.out.println("Selected x: " + selectedCubePos[0] + ", y: " + selectedCubePos[1] + ", z: " + selectedCubePos[2]);
+    private void keyAlt2rotate() {
+
+        selectedCube = -1;
+        isSelected = false;
+        selectedDirection = -1;
+        selectedCubePos = null;
+    }
+
+    private void keyAlt3(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                viewX -= VIEW_ROT_STEP;
+                break;
+            case KeyEvent.VK_DOWN:
+                viewX += VIEW_ROT_STEP;
+                break;
+            case KeyEvent.VK_LEFT:
+                if (e.isShiftDown()) viewZ += VIEW_ROT_STEP;
+                else viewY -= VIEW_ROT_STEP;
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (e.isShiftDown()) viewZ -= VIEW_ROT_STEP;
+                else viewY += VIEW_ROT_STEP;
+                break;
+            case KeyEvent.VK_Q:
+                rotateSection(RubiksCube.X_LEFT, 0, e.isShiftDown()); break;
+            case KeyEvent.VK_W:
+                rotateSection(RubiksCube.X_MID, 0, e.isShiftDown()); break;
+            case KeyEvent.VK_E:
+                rotateSection(RubiksCube.X_RIGHT, 0, e.isShiftDown()); break;
+            case KeyEvent.VK_A:
+                rotateSection(RubiksCube.Y_BOT, 1, e.isShiftDown()); break;
+            case KeyEvent.VK_S:
+                rotateSection(RubiksCube.Y_MID, 1, e.isShiftDown()); break;
+            case KeyEvent.VK_D:
+                rotateSection(RubiksCube.Y_TOP, 1, e.isShiftDown()); break;
+            case KeyEvent.VK_Z:
+                rotateSection(RubiksCube.Z_FRONT, 2, e.isShiftDown()); break;
+            case KeyEvent.VK_X:
+                rotateSection(RubiksCube.Z_MID, 2, e.isShiftDown()); break;
+            case KeyEvent.VK_C:
+                rotateSection(RubiksCube.Z_BACK, 2, e.isShiftDown()); break;
+        }
     }
 
 
@@ -868,6 +1108,30 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     public void mouseMoved(MouseEvent e) {}
     public void mouseDragged(MouseEvent e) {}
     public void mouseWheelMoved(MouseEvent e) {}
+
+    private abstract class RotationAnimatorThread extends Thread {
+        private boolean isTerminated = false;
+
+        public void terminate() { isTerminated = true; }
+
+        protected abstract int getSection(int i);
+        protected abstract int getAxis(int i);
+        protected abstract boolean isReverse(int i);
+        protected abstract boolean isComplete(int i);
+
+        @Override
+        public void run() {
+            int i = 0;
+            while (!isTerminated && !isComplete(i)) {
+                while (isRotating()) {
+                    try { Thread.sleep(10); }
+                    catch (InterruptedException e) { }
+                }
+                rotateSection(getSection(i), getAxis(i), isReverse(i));
+                i++;
+            }
+        }
+    }
 
 
 }

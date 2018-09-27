@@ -16,20 +16,17 @@ public class RubiksCube {
     public static final int Y_TOP = 2;
 
     //  Z values
-    public static final int Z_FRONT = 0;
+    public static final int Z_BACK = 0;
     public static final int Z_MID = 1;
-    public static final int Z_BACK = 2;
+    public static final int Z_FRONT = 2;
 
     public RubiksCube() {}
 
-    private ArrayList<Cube> filterX(int x) {
-        ArrayList<Cube> filtered = new ArrayList<>();
-        //filtered.clear();
+    private ArrayList<Cube> filterX(ArrayList<Cube> filtered, int x) {
         int i = 0;
         int j = 7;
         int k = 6;
         for (Cube cube : cubes) {
-            System.out.println("i: " + i + ", j: " + j + ", k: " + k);
             if (cube.getX() == x) {
                 if (cube.getZ() == 2){
                     filtered.set(i, cube);
@@ -45,16 +42,16 @@ public class RubiksCube {
                 }
             }
         }
+
         return filtered;
     }
 
-    private ArrayList<Cube> filterY(int y) {
-        ArrayList<Cube> filtered = new ArrayList<>();
-        //filtered.();
+    private ArrayList<Cube> filterY(ArrayList<Cube> filtered, int y) {
         int i = 0;
         int j = 7;
         int k = 6;
         for (Cube cube : cubes) {
+            System.out.println(filtered.size());
             if (cube.getY() == y) {
                 if (cube.getZ() == 2){
                     filtered.set(i, cube);
@@ -73,13 +70,12 @@ public class RubiksCube {
         return filtered;
     }
 
-    private ArrayList<Cube> filterZ(int z) {
-        ArrayList<Cube> filtered = new ArrayList<>();
-        //filtered.clear();
+    private ArrayList<Cube> filterZ(ArrayList<Cube> filtered, int z) {
         int i = 0;
         int j = 7;
         int k = 6;
         for (Cube cube : cubes) {
+            System.out.println(filtered.size());
             if (cube.getZ() == z) {
                 if (cube.getY() == 2){
                     filtered.set(i, cube);
@@ -100,12 +96,17 @@ public class RubiksCube {
 
     // ROTATE
     public void rotateByAxis(int axis, int[] section, boolean reverse) {
+        ArrayList<Cube> filtered = new ArrayList<>(8);
+        for (int a = 0; a < 8; a++){
+            filtered.add(cubes.get(a));
+        }
+
         if (axis == 0) {
-            rotateSection(filterX(section[0]), reverse);
+            rotateSection(filterX(filtered, section[0]), reverse);
         } else if (axis == 1) {
-            rotateSection(filterY(section[1]), reverse);
+            rotateSection(filterY(filtered, section[1]), reverse);
         } else if (axis == 2) {
-            rotateSection(filterZ(section[2]), reverse);
+            rotateSection(filterZ(filtered, section[2]), reverse);
         }
     }
 
@@ -113,11 +114,14 @@ public class RubiksCube {
         int i = 0;
         int index;
         for (Cube f : fCubes) {
+            System.out.println("- Filtered -");
+            System.out.println("Index: " + fCubes.indexOf(f) + ", x: " + f.getX() + ", y: " + f.getY() + ", z: " + f.getZ());
             if (reverse){
                 index = (fCubes.indexOf(f) < 2) ? i+6 : i-2;
             } else {
                 index = (fCubes.indexOf(f) > 5) ? i-6 : i+2;
             }
+            System.out.println("Index: " + index);
             updateCubes(f, fCubes.get(index));
             i++;
         }
@@ -147,9 +151,39 @@ public class RubiksCube {
     }
 
     public void updateCubes(Cube from, Cube to) {
-        from.setX(to.getX());
-        from.setY(to.getY());
-        from.setZ(to.getZ());
+
+        Cube c = getCube(from.getStartX(), from.getStartY(), from.getStartZ());
+        //System.out.println("From: " + c.);
+
+        c.setX(to.getX());
+        c.setY(to.getY());
+        c.setZ(to.getZ());
+
+
+
+        c.updateCells(to.getCells());
+
+
+        /*
+        ArrayList<Cell> toCells = to.getCells();
+
+        int[] convertTo = new int[toCells.size()];
+
+        for (Cell cellTo: toCells) {
+            convertTo[toCells.indexOf(cellTo)] = cellTo.getSide();
+        }
+
+        int i = 0;
+        for (Cell cell : c.getCells()) {
+            cell.setSide(convertTo[i]);
+
+            i++;
+        }
+        */
+        //System.out.println("New: " + getCube(from.getStartX(), from.getStartY(), from.getStartZ()));
+        System.out.println("New - x: " + c.getX() + ", y: " + c.getY() + ", z: " + c.getZ());
+
+
     }
 
 

@@ -22,13 +22,13 @@ public class Cube {
     private int z;
 
 
-    private boolean front;
-    //int front = START_COLOR_FRONT;
-    //int back = START_COLOR_BACK;
-    //int left = START_COLOR_LEFT;
-    //int right = START_COLOR_RIGHT;
-    //int top = START_COLOR_TOP;
-    //int bot = START_COLOR_BOT;
+    //private int front;
+    private int front = START_COLOR_FRONT;
+    private int back = START_COLOR_BACK;
+    private int left = START_COLOR_LEFT;
+    private int right = START_COLOR_RIGHT;
+    private int top = START_COLOR_TOP;
+    private int bot = START_COLOR_BOT;
 
 
     public Cube(int startX, int startY, int startZ) {
@@ -113,6 +113,22 @@ public class Cube {
         System.out.println("Cells set");
     }
 
+    public void updateCells(ArrayList<Cell> newCells){
+        //ArrayList<Cell> from = this.getCells();
+
+        for (Cell c1 : cells) {
+            System.out.println("c1 -  side: " + c1.getSide() + ", color: " + c1.getColor());
+        }
+
+        for (Cell c2 : newCells) {
+            System.out.println("c2 -  side: " + c2.getSide() + ", color: " + c2.getColor());
+        }
+
+        this.cells = newCells;
+
+        System.out.println("Cells updated");
+    }
+
     public Cell findSide(int side) {
         for (Cell cell : cells) {
             if (cell.getSide() == side) {
@@ -123,13 +139,13 @@ public class Cube {
     }
 
 
-    public Cell createNewCell(int color) {
-        if (findCellByColor(color)!= null){
+    public Cell createNewCell(int side) {
+        if (findCellByColor(side)!= null){
             System.out.println("Cell exists");
-            return findCellByColor(color);
+            return findCellByColor(side);
         }
 
-        Cell newCell = new Cell(color);
+        Cell newCell = new Cell(side);
         cells.add(newCell);
 
         return newCell;
@@ -139,12 +155,10 @@ public class Cube {
         //return newCell;
     }
 
-    private void addCell(Cell cell) {
-        cells.add(cell);
-    }
 
-    public void updateCell(Cell cell) {
-        //cell.setX();
+    public void updateCell(int from, int to) {
+        //cells.add();
+
     }
 
 
