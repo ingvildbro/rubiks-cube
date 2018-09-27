@@ -1,18 +1,3 @@
-/*import com.jogamp.newt.event.*;
-import com.jogamp.newt.opengl.GLWindow;
-import com.jogamp.opengl.*;
-import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.FPSAnimator;
-
-import static com.jogamp.opengl.GL.*;
-import static com.jogamp.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
-import static com.jogamp.opengl.GL2ES3.GL_QUADS;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
-import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
-import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
-*/
-
 import static com.jogamp.opengl.GL.*;
 import static com.jogamp.opengl.GL2.GL_QUADS;
 import static com.jogamp.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
@@ -38,8 +23,6 @@ import com.jogamp.newt.event.WindowEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import java.awt.*;
-import java.util.Arrays;
 
 public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListener, MouseListener {
     private static final String TITLE = "Rubik's Cube";
@@ -52,64 +35,6 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private static final float DEFAULT_VIEW_Y = -22.5f;
     private static final float DEFAULT_VIEW_Z = 0.0f;
     private static final float DEFAULT_ZOOM = -18.0f;
-
-
-    // Color views
-
-    //RED   -   -45 < x < 45    -   -45 < y < 45
-    private static final float RED_VIEW_X_MAX = 22.5f;      //44.9f         #1.9
-    private static final float RED_VIEW_X = 0.0f;                       //  #1      0       360
-    private static final float RED_VIEW_X_MIN = -22.5f;     //-44.9f        #1.1
-
-    private static final float RED_VIEW_Y_MAX = 22.5f;      //44.9f         #
-    private static final float RED_VIEW_Y = 0.0f;                       //  #x      0       360
-    private static final float RED_VIEW_Y_MIN = -22.5f;     //-44.9f        #
-
-    //ORANGE
-    private static final float ORANGE_VIEW_X_MAX = 202.5f;  //224.9f        #3.9
-    private static final float ORANGE_VIEW_X = 180.0f;                  //  #3      -180    180
-    private static final float ORANGE_VIEW_X_MIN = 157.5f;  //135.1f        #3.1
-
-    private static final float ORANGE_VIEW_Y_MAX = 22.5f;   //
-    private static final float ORANGE_VIEW_Y = 22.5f;                   //
-    private static final float ORANGE_VIEW_Y_MIN = 22.5f;   //
-
-    //BLUE
-    private static final float BLUE_VIEW_X_MAX = 112.5f;    //134.9f        #2.9
-    private static final float BLUE_VIEW_X = 90.0f;                     //  #2      -270    90
-    private static final float BLUE_VIEW_X_MIN = 67.5f;     //45.1f         #2.1
-
-    private static final float BLUE_VIEW_Y_MAX = 22.5f;     //
-    private static final float BLUE_VIEW_Y = 22.5f;                     //
-    private static final float BLUE_VIEW_Y_MIN = 22.5f;     //
-
-    //GREEN
-    private static final float GREEN_VIEW_X_MAX = 292.5f;    //314.9f       #4.9
-    private static final float GREEN_VIEW_X = 270.0f;                   //  #4      -90     270
-    private static final float GREEN_VIEW_X_MIN = 247.5f;    //225.1f       #4.1
-
-    private static final float GREEN_VIEW_Y_MAX = 22.5f;    //
-    private static final float GREEN_VIEW_Y = 22.5f;                    //
-    private static final float GREEN_VIEW_Y_MIN = 22.5f;    //
-
-    //YELLOW
-    private static final float YELLOW_VIEW_X_MAX = 22.5f;
-    private static final float YELLOW_VIEW_X = 0.0f;
-    private static final float YELLOW_VIEW_X_MIN = 22.5f;
-
-    private static final float YELLOW_VIEW_Y_MAX = 22.5f;
-    private static final float YELLOW_VIEW_Y = 22.5f;
-    private static final float YELLOW_VIEW_Y_MIN = 22.5f;
-
-
-    //WHITE
-    private static final float WHITE_VIEW_X_MAX = 22.5f;
-    private static final float WHITE_VIEW_X = 0.0f;
-    private static final float WHITE_VIEW_X_MIN = 22.5f;
-
-    private static final float WHITE_VIEW_Y_MAX = 22.5f;
-    private static final float WHITE_VIEW_Y = 22.5f;
-    private static final float WHITE_VIEW_Y_MIN = 22.5f;
 
 
     // Rotate degrees
@@ -148,7 +73,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     private int selectedY;
     private int selectedZ;
     private int[] selectedCubePos = new int[3];
-    private boolean isSelected;
+    private boolean isSelected = false;
 
     private int selectedDirection;
 
@@ -227,7 +152,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     }
 
     public void display(GLAutoDrawable drawable) {
-        updateRotationAngles();
+        //updateRotationAngles();
         drawRubiksCube(drawable.getGL().getGL2());
 
     }
@@ -250,24 +175,21 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                 for (int z = 0; z < 3; z++) {
                     gl.glPushMatrix();
 
-                    gl.glRotatef(anglesX[x], 1.0f, 0.0f, 0.0f);
-                    gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
-                    gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
+                    //gl.glRotatef(anglesX[x], 1.0f, 0.0f, 0.0f);
+                    //gl.glRotatef(anglesY[y], 0.0f, 1.0f, 0.0f);
+                    //gl.glRotatef(anglesZ[z], 0.0f, 0.0f, 1.0f);
 
                     gl.glTranslatef((x-1)*2.251f, (y-1)*2.251f, (z-1)*2.251f);
 
 
-                    if (!(rubiksCube.findCube(x, y, z))) {
-                        // first drawing, create cube
-                        Cube cube = rubiksCube.createCube(x, y, z);
-                        rubiksCube.addCube(cube);
-                        drawCube(gl, x, y, z, cube, true);
-                    } else {
-                        // update position
-                        Cube cube = rubiksCube.getCube(x, y, z);
-                        rubiksCube.updateCube(cube, x, y, z);
-                        drawCube(gl, x, y, z, cube, false);
+                    //Cube cube = new Cube(x, y, z);
 
+                    if (rubiksCube.getCube(x, y, z) == null) {
+                        // first drawing, create cube
+                        drawCube(gl, rubiksCube.createNewCube(x, y, z));
+                    } else {
+                        // find cube
+                        drawCube(gl, rubiksCube.getCube(x, y, z));
                     }
 
                     gl.glPopMatrix();
@@ -457,7 +379,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
     }
 
-    private void drawCube(GL2 gl, int x, int y, int z, Cube cube, boolean initial) {
+    private void drawCube(GL2 gl, Cube cube) {
         // Start drawing quads to form a single cube
 
         gl.glEnable(GL_COLOR_MATERIAL);
@@ -467,46 +389,48 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         // FRONT - red
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        //if(z == 2) gl.glColor3f(1.0f, 0.0f, 0.0f);  // change to red
-        if (cube.front == 0) {
-            findColor(gl, cube.front);
-            //gl.glColor3f(1.0f, 0.0f, 0.0f);
-            //cube.createCell(x, y, z, 0);
-        }
 
-        if (initial && z == 2) {
-            Cell cell = cube.createCell(0);
-            cell.setSide(0);
+        if (cube.findCellBySide(0) != null) {
+            findColor(gl, cube.findCellBySide(0).getColor());
         }
-
-        //if ()
 
         gl.glVertex3f(1.0f, -1.0f, 1.125f);           // bot left front
         gl.glVertex3f(-1.0f,-1.0f, 1.125f);           // bot right front
         gl.glVertex3f(-1.0f,1.0f,  1.125f);           // top right front
         gl.glVertex3f(1.0f, 1.0f,  1.125f);           // top left front
 
+
         // BACK - orange
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(z == 0) gl.glColor3f(1.0f, 0.5f, 0.0f);  // change to orange
+
+        if (cube.findCellBySide(1) != null) {
+            findColor(gl, cube.findCellBySide(1).getColor());
+        }
 
         gl.glVertex3f(1.0f, -1.0f,-1.125f);           // bot left back
         gl.glVertex3f(-1.0f,-1.0f,-1.125f);           // bot right back
         gl.glVertex3f(-1.0f,1.0f, -1.125f);           // top right back
         gl.glVertex3f(1.0f, 1.0f, -1.125f);           // top left back
 
+
         // TOP - blue
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(y == 2) gl.glColor3f(0.0f, 0.0f, 1.0f);  // change to blue
 
+        if (cube.findCellBySide(2) != null) {
+            findColor(gl, cube.findCellBySide(2).getColor());
+        }
         gl.glVertex3f(1.0f, 1.125f, 1.0f);            // bot/front right
         gl.glVertex3f(-1.0f,1.125f, 1.0f);            // bot/front left
         gl.glVertex3f(-1.0f,1.125f, -1.0f);           // top/back left
         gl.glVertex3f(1.0f, 1.125f, -1.0f);           // top/back right
 
+
         // BOTTOM - green
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(y == 0) gl.glColor3f(0.0f, 1.0f, 0.0f);  // change to green
+
+        if (cube.findCellBySide(3) != null) {
+            findColor(gl, cube.findCellBySide(3).getColor());
+        }
 
         gl.glVertex3f(1.0f, -1.125f, 1.0f);           // bot/front right
         gl.glVertex3f(-1.0f,-1.125f, 1.0f);           // bot/front left
@@ -516,16 +440,23 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
 
         // RIGHT - yellow
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(x == 2) gl.glColor3f(1.0f, 1.0f, 0.0f);  // change to yellow
+
+        if (cube.findCellBySide(4) != null) {
+            findColor(gl, cube.findCellBySide(4).getColor());
+        }
 
         gl.glVertex3f(1.125f, -1.0f,-1.0f);           // top left
         gl.glVertex3f(1.125f, -1.0f,1.0f);            // top right
         gl.glVertex3f(1.125f, 1.0f, 1.0f);            //
         gl.glVertex3f(1.125f, 1.0f, -1.0f);           //
 
+
         // LEFT - white
         gl.glColor3f(0.0f, 0.0f, 0.0f);             // inside black
-        if(x == 0) gl.glColor3f(1.0f, 1.0f, 1.0f);  // change to white
+
+        if (cube.findCellBySide(5) != null) {
+            findColor(gl, cube.findCellBySide(5).getColor());
+        }
 
         gl.glVertex3f(-1.125f, -1.0f,-1.0f);
         gl.glVertex3f(-1.125f, -1.0f,1.0f);
@@ -630,6 +561,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     }
 
     private void updateRotationAngles() {
+        /*
         Rotation.Direction direction = (angularVelocity > 0) ?  Rotation.Direction.NEGATIVE : Rotation.Direction.POSITIVE;
 
         if (rotationSectionX >= 0) {
@@ -657,6 +589,7 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
             }
 
         }
+        */
     }
 
     // section is the index of the column/row/face that is to be rotated.
@@ -672,30 +605,6 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
     }
 
     public void keyPressed(KeyEvent e) {
-
-        /*
-        System.out.println("toString: " + e.toString());
-
-        System.out.println("KeyCode: " + e.getKeyCode());
-        System.out.println("KeyChar: " + e.getKeyChar());
-        System.out.println("KeySymbol: " + e.getKeySymbol());
-
-        System.out.println("Attachment: " + e.getAttachment());
-        System.out.println("Attachment string: " + e.getAttachment().toString());
-
-        System.out.println("ActionKey: " + e.isActionKey());
-        System.out.println("ModifierKey: " + e.isModifierKey());
-        System.out.println("PrintableKey: " + e.isPrintableKey());
-
-        System.out.println("HashCode: " + e.hashCode());
-        System.out.println("Source: " + e.getSource());
-        System.out.println("EventType: " + e.getEventType());
-
-        System.out.println("ButtonDownCount: " + e.getButtonDownCount());
-        System.out.println("ButtonsDown: " + Arrays.toString(e.getButtonsDown()));
-        */
-
-
         //  VIEW CONTROLS
         if (e.isShiftDown()) {
             switch (e.getKeyCode()) {
@@ -738,99 +647,122 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
                 System.out.println("z: " + viewZ);
             }
             updateView();
-        }else if (e.getAttachment() != null) {
-            System.out.println(e.getAttachment());
-            updateView();
-
-
-
-
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    selectedDirection = 2;
-                    rotateSection(selectedCubePos[1], Rotation.Axis.Y, false);
-                    break;
-
-                case KeyEvent.VK_DOWN:
-                    selectedDirection = 3;
-                    rotateSection(selectedCubePos[1], Rotation.Axis.Y, true);
-                    break;
-
-                case KeyEvent.VK_LEFT:
-                    selectedDirection = 1;
-                    rotateSection(selectedCubePos[0], Rotation.Axis.X, true);
-                    break;
-
-                case KeyEvent.VK_RIGHT:
-                    selectedDirection = 0;
-                    rotateSection(selectedCubePos[0], Rotation.Axis.X, false);
-                    break;
-
-                case KeyEvent.VK_PLUS:
-                    selectedDirection = 4; // +z
-                    rotateSection(selectedCubePos[2], Rotation.Axis.Z, false);
-                    break;
-
-                case KeyEvent.VK_MINUS:
-                    selectedDirection = 5; // -z
-                    rotateSection(selectedCubePos[2], Rotation.Axis.Z, true);
-                    break;
-            }
-
 
         } else {
+            if (isSelected) {
+                System.out.println("Rotate");
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                        selectedDirection = 2;
 
+                        rubiksCube.rotateByAxis(0, selectedCubePos, false);
+
+                        //rotateSection(selectedCubePos[1], Rotation.Axis.Y, false);
+                        break;
+
+                    case KeyEvent.VK_DOWN:
+                        selectedDirection = 3;
+
+                        rubiksCube.rotateByAxis(0, selectedCubePos, true);
+                        //rotateSection(selectedCubePos[1], Rotation.Axis.Y, true);
+                        break;
+
+                    case KeyEvent.VK_LEFT:
+                        selectedDirection = 1;
+
+                        rubiksCube.rotateByAxis(1, selectedCubePos, true);
+                        //rotateSection(selectedCubePos[0], Rotation.Axis.X, true);
+                        break;
+
+                    case KeyEvent.VK_RIGHT:
+                        selectedDirection = 0;
+
+                        rubiksCube.rotateByAxis(1, selectedCubePos, false);
+                        //rotateSection(selectedCubePos[0], Rotation.Axis.X, false);
+                        break;
+
+                    case KeyEvent.VK_PLUS:
+                        selectedDirection = 4; // +z
+
+                        rubiksCube.rotateByAxis(2, selectedCubePos, false);
+                        //rotateSection(selectedCubePos[2], Rotation.Axis.Z, false);
+                        break;
+
+                    case KeyEvent.VK_MINUS:
+                        selectedDirection = 5; // -z
+
+                        rubiksCube.rotateByAxis(2, selectedCubePos, true);
+                        //rotateSection(selectedCubePos[2], Rotation.Axis.Z, true);
+                        break;
+                }
+
+                selectedCube = -1;
+                isSelected = false;
+                selectedDirection = -1;
+                selectedCubePos = null;
+
+
+            }
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_Q:
-                    e.setAttachment(KeyEvent.VK_Q);
+                    //e.setAttachment(KeyEvent.VK_Q);
                     selectedCube = 7;
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_W:
-                    e.setAttachment(KeyEvent.VK_W);
+                    //e.setAttachment(KeyEvent.VK_W);
                     selectedCube = 8;
+                    isSelected = true;
                     break;
 
                 case KeyEvent.VK_E:
-                    e.setAttachment(KeyEvent.VK_E);
+                    //e.setAttachment(KeyEvent.VK_E);
                     selectedCube = 9;
+                    isSelected = true;
                     break;
 
                 case KeyEvent.VK_A:
-                    e.setAttachment(KeyEvent.VK_A);
+                    //e.setAttachment(KeyEvent.VK_A);
                     selectedCube = 4;
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_S:
-                    e.setAttachment(KeyEvent.VK_S);
+                    //e.setAttachment(KeyEvent.VK_S);
                     selectedCube = 5;
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_D:
-                    e.setAttachment(KeyEvent.VK_D);
+                    //e.setAttachment(KeyEvent.VK_D);
                     selectedCube = 6;   //  2, 1, z
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_Z:
-                    e.setAttachment(KeyEvent.VK_Z);
+                    //e.setAttachment(KeyEvent.VK_Z);
                     selectedCube = 1;   // 0, 0, z
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_X:
-                    e.setAttachment(KeyEvent.VK_X);
+                    //e.setAttachment(KeyEvent.VK_X);
                     selectedCube = 2;
+                    isSelected = true;
 
                     break;
 
                 case KeyEvent.VK_C:
-                    e.setAttachment(KeyEvent.VK_C);
+                    //e.setAttachment(KeyEvent.VK_C);
                     selectedCube = 3;
+                    isSelected = true;
                     break;
             }
             selectCube(selectedCube);
@@ -857,36 +789,36 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
         }
 
         switch (colorSide) {
-            case 0: // x, y, 2  red
+            case 0: // x, y, 2  front/red
 
                 selectedCubePos[2] = 2; // z = 2
                 break;
 
-            case 1: // x, y, 0  orange
+            case 1: // x, y, 0  back/orange
 
 
                 selectedCubePos[2] = 0; // z = 0
                 break;
 
-            case 2: // x, 2, z  blue
+            case 2: // x, 2, z  top/blue
                 //selectedCubePos[2] = selectedCubePos[1];
 
                 selectedCubePos[1] = 2; // y = 2
                 break;
 
-            case 3: // x, 0, z  green
+            case 3: // x, 0, z  bot/green
                 //selectedCubePos[0] = 0;
                 selectedCubePos[1] = 0; // y = 0
                 //selectedCubePos[2] = 2;
                 break;
 
-            case 4: // 2, y, z  yellow
+            case 4: // 2, y, z  right/yellow
                 selectedCubePos[0] = 2; // x = 2
                 //selectedCubePos[1] = 0;
                 //selectedCubePos[2] = 2;
                 break;
 
-            case 5: // 0, y, z  white
+            case 5: // 0, y, z  left/white
                 selectedCubePos[0] = 0; // x = 0
                 //selectedCubePos[1] = 0;
                 //selectedCubePos[2] = 2;
@@ -915,19 +847,12 @@ public class Rubiks_Canvas extends GLCanvas implements GLEventListener, KeyListe
             }
         }
 
-        System.out.println("x: " + selectedCubePos[0] + ", y: " + selectedCubePos[1] + ", z: " + selectedCubePos[2]);
+        System.out.println("Selected x: " + selectedCubePos[0] + ", y: " + selectedCubePos[1] + ", z: " + selectedCubePos[2]);
     }
 
-    private void rotateSliceX(boolean direction) {
 
-    }
-
-    private void rotateSliceY(boolean direction) {
-
-    }
-
-    private void rotateSliceZ(boolean direction) {
-
+    private void findSelectedSection() {
+        //if (selectedCube == 0)
     }
 
 

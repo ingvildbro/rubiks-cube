@@ -5,13 +5,6 @@ public class Cube {
 
     private ArrayList<Cell> cells = new ArrayList<>();
 
-    public static final int FACELET_FRONT  = (1 << 0);
-    public static final int FACELET_REAR   = (1 << 1);
-    public static final int FACELET_LEFT   = (1 << 2);
-    public static final int FACELET_RIGHT  = (1 << 3);
-    public static final int FACELET_TOP    = (1 << 4);
-    public static final int FACELET_BOTTOM = (1 << 5);
-
     public static final int START_COLOR_FRONT = 0; //RED
     public static final int START_COLOR_BACK = 1; //ORANGE
     public static final int START_COLOR_TOP = 2; //BLUE
@@ -28,16 +21,27 @@ public class Cube {
     private int y;
     private int z;
 
-    int front = START_COLOR_FRONT;
-    int back = START_COLOR_BACK;
-    int left = START_COLOR_LEFT;
-    int right = START_COLOR_RIGHT;
-    int top = START_COLOR_TOP;
-    int bot = START_COLOR_BOT;
+
+    private boolean front;
+    //int front = START_COLOR_FRONT;
+    //int back = START_COLOR_BACK;
+    //int left = START_COLOR_LEFT;
+    //int right = START_COLOR_RIGHT;
+    //int top = START_COLOR_TOP;
+    //int bot = START_COLOR_BOT;
 
 
-    public Cube(int startX, int startY, int startZ,
-    int front, int back, int top, int bot, int right, int left) {
+    public Cube(int startX, int startY, int startZ) {
+        this.startX = startX;
+        this.startY = startY;
+        this.startZ = startZ;
+
+        this.x = startX;
+        this.y = startY;
+        this.z = startZ;
+    }
+
+    public Cube(int startX, int startY, int startZ, ArrayList<Cell> cells) {
         this.startX = startX;
         this.startY = startY;
         this.startZ = startZ;
@@ -46,18 +50,7 @@ public class Cube {
         this.y = startY;
         this.z = startZ;
 
-        this.front = front;
-        this.back = back;
-        this.top = top;
-        this.bot = bot;
-        this.right = right;
-        this.left = left;
-    }
-
-    public Cube(int x, int y, int z) {
-        this.startX = x;
-        this.startY = y;
-        this.startZ = z;
+        this.cells = new ArrayList<>();
     }
 
     public int getX() {
@@ -70,6 +63,18 @@ public class Cube {
 
     public int getZ() {
         return z;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getStartZ() {
+        return startZ;
     }
 
     public void setX(int x) {
@@ -85,47 +90,28 @@ public class Cube {
     }
 
 
-    public Cube getCopy() {
+    /*public Cube getCopy() {
         return new Cube(startX, startY, startZ, front, back, top, bot, right, left);
-    }
+    }*/
 
 
     public ArrayList<Cell> getCells() {
         return cells;
     }
 
-    /*
-    public ArrayList<Cell> getCellsBySide() {
-        ArrayList<Cell> cells1 = new ArrayList<>();
 
-        for (Cell cell : cells) {
-            if (cell.)
-        }
+    public void setCells(){
+        if (this.getStartZ() == 2) this.createNewCell(0);
+        if (this.getStartZ() == 0) this.createNewCell(1);
 
-        return cells1;
+        if (this.getStartY() == 2) this.createNewCell(2);
+        if (this.getStartY() == 0) this.createNewCell(3);
+
+        if (this.getStartX() == 2) this.createNewCell(4);
+        if (this.getStartX() == 0) this.createNewCell(5);
+
+        System.out.println("Cells set");
     }
-    */
-
-    public boolean addCell() {
-        if (cells.size() >= 54) {
-            return false;
-        }
-
-        for (Cell c : cells) {
-            //if (cells.)
-        }
-        return false;
-    }
-
-
-    public boolean setNewPosition() {
-        for (Cell c : cells) {
-            //if ()
-        }
-
-        return false;
-    }
-
 
     public Cell findSide(int side) {
         for (Cell cell : cells) {
@@ -137,19 +123,23 @@ public class Cube {
     }
 
 
-    public Cell createCell(int color) {
-        for (Cell c : cells) {
-            if (c.getColor() == color) {
-                return c;
-            }
+    public Cell createNewCell(int color) {
+        if (findCellByColor(color)!= null){
+            System.out.println("Cell exists");
+            return findCellByColor(color);
         }
 
         Cell newCell = new Cell(color);
-        addCell(newCell);
+        cells.add(newCell);
+
         return newCell;
+
+        //System.out.println("Size cells: " + cells.size());
+
+        //return newCell;
     }
 
-    public void addCell(Cell cell) {
+    private void addCell(Cell cell) {
         cells.add(cell);
     }
 
@@ -157,17 +147,8 @@ public class Cube {
         //cell.setX();
     }
 
-    public Cell findCellsByPos(int x, int y, int z) {
-        for (Cell c : cells) {
-            if (c.getX() == x && c.getY() == y && c.getZ() == z) {
-                return c;
-            }
-        }
 
-        return null;
-    }
-
-    public Cell findCellsByColor(int color) {
+    public Cell findCellByColor(int color) {
         for (Cell c : cells) {
             if (c.getColor() == color) {
                 return c;
@@ -177,8 +158,13 @@ public class Cube {
 
     }
 
-    public int findFront(){
-        return front;
+    public Cell findCellBySide(int side) {
+        for (Cell c : cells) {
+            if (c.getSide() == side) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -187,9 +173,9 @@ public class Cube {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         Cube other = (Cube) obj;
-        if (x != other.x) return false;
-        if (y != other.y) return false;
-        if (z != other.z) return false;
+        if (startX != other.startX) return false;
+        if (startY != other.startY) return false;
+        if (startZ != other.startZ) return false;
 
         return false;
     }
