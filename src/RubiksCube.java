@@ -4,6 +4,9 @@ public class RubiksCube {
 
     private ArrayList<Cube> cubes = new ArrayList<>();
 
+    private static final int[] X_SIDES = new int[] {0, 2, 1, 3};
+    private static final int[] Y_SIDES = new int[] {0, 4, 1, 5};
+    private static final int[] Z_SIDES = new int[] {2, 4, 3, 5};
 
     //  X values
     public static final int X_LEFT = 0;
@@ -115,16 +118,18 @@ public class RubiksCube {
         int index;
         for (Cube f : fCubes) {
             System.out.println("- Filtered -");
-            System.out.println("Index: " + fCubes.indexOf(f) + ", x: " + f.getX() + ", y: " + f.getY() + ", z: " + f.getZ());
+            System.out.println("Index: " + i + ", x: " + f.getX() + ", y: " + f.getY() + ", z: " + f.getZ());
             if (reverse){
-                index = (fCubes.indexOf(f) < 2) ? i+6 : i-2;
+                index = (i < 2) ? i+6 : i-2;
             } else {
-                index = (fCubes.indexOf(f) > 5) ? i-6 : i+2;
+                index = (i > 5) ? i-6 : i+2;
             }
             System.out.println("Index: " + index);
             updateCubes(f, fCubes.get(index));
             i++;
         }
+
+        //updateSides(fCubes, reverse);
     }
 
 
@@ -150,6 +155,39 @@ public class RubiksCube {
         return cubes.size();
     }
 
+    private void updateSides(ArrayList<Cube> fCubes, boolean reverse) {
+        for (Cube fCube : fCubes) {
+            ArrayList<Cell> fCells = fCube.getCells();
+
+
+            for (Cell fCell : fCells) {
+                int side = fCell.getSide();
+                switch (fCell.getSide()) {
+                    case 0:
+                        side =
+                        side = (reverse) ? : 2;
+                        break;
+                    case 1:
+                        side = (reverse) ? 3 : 3;
+                        break;
+                    case 2:
+                        side = (reverse) ? 3 : 1;
+                        break;
+                    case 3:
+                        side = (reverse) ? 3 : 3;
+                        break;
+                    case 4:
+                        side = (reverse) ? 3 : 2;
+                        break;
+                    case 5:
+                        side = (reverse) ? 3 : 2;
+                        break;
+                }
+                fCell.setSide(side);
+            }
+        }
+    }
+
     public void updateCubes(Cube from, Cube to) {
 
         Cube c = getCube(from.getStartX(), from.getStartY(), from.getStartZ());
@@ -159,9 +197,19 @@ public class RubiksCube {
         c.setY(to.getY());
         c.setZ(to.getZ());
 
+        ArrayList<Cell> fc = from.getCells();
+        ArrayList<Cell> tc = to.getCells();
+
+        for (Cell f : fc) {
+
+        }
+
+
+
 
 
         c.updateCells(to.getCells());
+
 
 
         /*

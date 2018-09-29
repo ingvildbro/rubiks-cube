@@ -12,6 +12,10 @@ public class Cube {
     public static final int START_COLOR_RIGHT = 4; //YELLOW
     public static final int START_COLOR_LEFT = 5; //WHITE
 
+    private static final int[] X_SIDES = new int[] {0, 2, 1, 3};
+    private static final int[] Y_SIDES = new int[] {0, 4, 1, 5};
+    private static final int[] Z_SIDES = new int[] {2, 4, 3, 5};
+
 
     private final int startX;
     private final int startY;
@@ -99,6 +103,26 @@ public class Cube {
         return cells;
     }
 
+    public int[] getSides() {
+        int[] sides = new int[cells.size()];
+        int i = 0;
+        for (Cell c : cells) {
+            sides[i] = c.getSide();
+            i++;
+        }
+        return sides;
+    }
+
+
+    public void setSides(int[] sides) {
+        int i = 0;
+        for (Cell c : cells) {
+            //int side = c.getSide();
+            c.setSide(sides[i]);
+            i++;
+        }
+    }
+
 
     public void setCells(){
         if (this.getStartZ() == 2) this.createNewCell(0);
@@ -113,18 +137,51 @@ public class Cube {
         System.out.println("Cells set");
     }
 
-    public void updateCells(ArrayList<Cell> newCells){
+    public void updateCells(ArrayList<Cell> newCells, int axis, boolean reverse){
+
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+        //  x:  front   ---(+)-->   top     |   front   ---(-)-->   bot     |   0 + 2       0 - 3   |   0 + 2       0 - 3
+        //  x:  top     ---(+)-->   back    |   bot     ---(-)-->   back    |   2 + 1       3 - 1   |   1 + 3       1 - 2
+        //  x:  back    ---(+)-->   bot     |   back    ---(-)-->   top     |   1 + 3       1 - 2   |   2 + 1       2 - 0
+        //  x:  bot     ---(+)-->   front   |   top     ---(-)-->   front   |   3 + 0       2 - 0   |   3 + 0       3 - 1
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+        //  y:  front   ---(+)-->   right   |   front   ---(-)-->   left    |   0 + 4       0 - 5   |
+        //  y:  right   ---(+)-->   back    |   left    ---(-)-->   back    |   4 + 1       5 - 1   |
+        //  y:  back    ---(+)-->   left    |   back    ---(-)-->   right   |   1 + 5       1 - 4   |
+        //  y:  left    ---(+)-->   front   |   right   ---(-)-->   front   |   5 + 0       4 - 0   |
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+        //  z:  top     ---(+)-->   right   |   top     ---(-)-->   left    |   2 + 4       2 - 5   |
+        //  z:  right   ---(+)-->   bot     |   left    ---(-)-->   bot     |   4 + 3       5 - 3   |
+        //  z:  bot     ---(+)-->   left    |   bot     ---(-)-->   right   |   3 + 5       3 - 4   |
+        //  z:  left    ---(+)-->   top     |   right   ---(-)-->   top     |   5 + 2       4 - 2   |
+        //  .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .
+
+
         //ArrayList<Cell> from = this.getCells();
 
+        int[] sides = new int[cells.size()];
+
         for (Cell c1 : cells) {
+            int side = c1.getSide();
+            if (axis == 0) {
+                if (reverse){
+                    c1.setSide();
+                }
+
+            }
+
             System.out.println("c1 -  side: " + c1.getSide() + ", color: " + c1.getColor());
+
         }
 
         for (Cell c2 : newCells) {
             System.out.println("c2 -  side: " + c2.getSide() + ", color: " + c2.getColor());
         }
 
-        this.cells = newCells;
 
         System.out.println("Cells updated");
     }

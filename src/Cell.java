@@ -3,7 +3,7 @@ public class Cell {
     
     private int color;
 
-    private final int side;
+    private int side;
 
 
     private int front;
@@ -22,9 +22,9 @@ public class Cell {
     public static final int WHITE = 5;
 
 
-    public Cell(int side) {
-        this.side = side;
-        this.color = side;
+    public Cell(int color) {
+        this.color = color;
+        this.side = color;
     }
 
     public int getColor() {
@@ -39,6 +39,10 @@ public class Cell {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public void setSide(int side) {
+        this.side = side;
     }
 
     @Override
